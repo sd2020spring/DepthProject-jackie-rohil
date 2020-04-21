@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 - Install OpenCV with the command if on ubuntu
 https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html  
-pip install opencv-python
+$ pip install opencv-python
 - If on windows, follow the instructions on this link:
 https://docs.opencv.org/master/d5/de5/tutorial_py_setup_in_windows.html
 
