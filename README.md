@@ -19,17 +19,17 @@ https://docs.opencv.org/master/d5/de5/tutorial_py_setup_in_windows.html
 List descriptions of each file and what they do. 
 
 ## Built With
-OpenCV - Detect and process obstacles
+OpenCV - Detect and process obstacles  
 Pygame - Game creation
 
 ### Authors
-Jackie Zeng \n 
+Jackie Zeng  
 Rohil Agarwal
 
 ### License
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ### Acknowledgments
-Hat tip to anyone whose code was used
-Inspiration
+Hat tip to anyone whose code was used  
+Inspiration  
 etc
