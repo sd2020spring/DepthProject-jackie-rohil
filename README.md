@@ -23,7 +23,7 @@ OpenCV - Detect and process obstacles
 Pygame - Game creation
 
 ### Authors
-Jackie Zeng
+Jackie Zeng /n 
 Rohil Agarwal
 
 ### License
