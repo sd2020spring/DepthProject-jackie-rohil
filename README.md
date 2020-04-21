@@ -4,19 +4,19 @@ Our project is a game that combines CV and AR into the gameplay. The human playe
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-- clone this respository onto your device
+- Clone this respository onto your device
 
 ## Prerequisites
 What things you need to install the software and how to install them
-- install OpenCV with the command if on ubuntu
+- Install OpenCV with the command if on ubuntu
 https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html
 pip install opencv-python
-- if on windows, follow the instructions on this link:
+- If on windows, follow the instructions on this link:
 https://docs.opencv.org/master/d5/de5/tutorial_py_setup_in_windows.html
 
 ## How to Run
 
-list descriptions of each file and what they do. 
+List descriptions of each file and what they do. 
 
 ## Built With
 OpenCV - Detect and process obstacles
