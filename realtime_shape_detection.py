@@ -1,7 +1,9 @@
+import sys
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+
 import numpy as np
-
-
 
 def nothing(x):
     # any operation
@@ -54,13 +56,13 @@ while True:
         if area > 400:
             cv2.drawContours(frame, [approx], 0, (0, 0, 0), 5)
 
-            if len(approx) == 3:
-                cv2.putText(frame, "Triangle", (x, y), font, 1, (0, 0, 0))
-            elif len(approx) == 4:
+            # if len(approx) == 3:
+            #     cv2.putText(frame, "Triangle", (x, y), font, 1, (0, 0, 0))
+            if len(approx) == 4:
                 cv2.putText(frame, "Rectangle", (x, y), font, 1, (0, 0, 0))
-            elif 10 < len(approx) < 20:
-                cv2.putText(frame, "Circle", (x, y), font, 1, (0, 0, 0))
-
+            # elif 10 < len(approx) < 20:
+            #     cv2.putText(frame, "Circle", (x, y), font, 1, (0, 0, 0))
+            #
 
     cv2.imshow("Frame", frame)
     cv2.imshow("Mask", mask)
