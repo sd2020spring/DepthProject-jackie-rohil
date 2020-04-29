@@ -41,7 +41,8 @@ Here is a flow diagram or our setup that gives an overview of the different step
 
 ## Ethical Considerations
 **TODO**: There may be more considerations that we missed, so we should take some time to think about these and add to this section.
-Even in something as seemingly simple as a ball drop game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to 
+Even in something as seemingly simple as a ball drop game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to think very intentionally about where things can go wrong, and we must do our best to protect against these potential issues. We must also have humility and be willing to accept that sometimes, even with our best efforts, things can still go wrong. When issues are exposed unexpectedly after deployment, we must have processes in place that allow for rapid mitigation.
+There are a few major areas of concern that we were able to identify for this project. 
 
 
 
