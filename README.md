@@ -2,7 +2,7 @@
 
 Our project is a game that combines CV and AR into the gameplay. The human player would be able to add obstacles to the game environment by placing them in front of a separate game display screen, OpenCV would detect the obstacles, and these obstacles would be generated through pygame as a component that other features in the game could interact with. This idea is based off of [Puppet.io](https://devpost.com/software/puppet-io), a project we were impressed by at MakeHarvard 2020.
 
-[Game Diagram](/SoftDes - Final Project Media/GameDiagramReview1.jpg)
+![Game Diagram](SoftDes - Final Project Media/GameDiagramReview1.jpg)
 
 
 
