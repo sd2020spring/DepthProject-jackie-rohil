@@ -1,0 +1,3 @@
+theme: jekyll-theme-merlot
+title: Augmented Reality Ball Drop Game
+description: Our game takes the simple concept of a ball drop game and takes it to the next level. We allows users to place boxes onto a projection of the game, and then we use OpenCV to capture these and incorporate them into the gameplay.
