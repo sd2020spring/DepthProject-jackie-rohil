@@ -24,8 +24,10 @@ To be able to run this game, you must have OpenCV installed.
 # The Game: Development and Results
 
 ## Implementation
-**TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture)
-Here is what our 
+**TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
+
+Here is a flow diagram or our setup that gives an overview of the different steps that the program must take in order to run the game.
+![Flow Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
 
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
@@ -35,8 +37,11 @@ Here is what our
 # Our Story and Context
 
 ## Narrative
+**TODO**: Add details about the full development process and the reasons behind decisions we made.
 
 ## Ethical Considerations
+**TODO**: There may be more considerations that we missed, so we should take some time to think about these and add to this section.
+Even in something as seemingly simple as a ball drop game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to 
 
 
 
