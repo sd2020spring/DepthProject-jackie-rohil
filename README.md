@@ -2,7 +2,7 @@
 
 Our project is a game that combines CV and AR into the gameplay. The human player would be able to add obstacles to the game environment by placing them in front of a separate game display screen, OpenCV would detect the obstacles, and these obstacles would be generated through pygame as a component that other features in the game could interact with. This idea is based off of [Puppet.io](https://devpost.com/software/puppet-io), a project we were impressed by at MakeHarvard 2020.
 
-![Game Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/SoftDes%20-%20Final%20Project%20Media/GameDiagramReview1.jpg)
+![Game Diagram](http://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/SoftDes%20-%20Final%20Project%20Media/GameDiagramReview1.jpg)
 
 
 
@@ -27,7 +27,7 @@ To be able to run this game, you must have OpenCV installed.
 **TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
 
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
-![Flow Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
+![Flow Diagram](http://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
 
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
@@ -42,7 +42,8 @@ Here is a flow diagram of our setup that gives an overview of the different step
 ## Ethical Considerations
 **TODO**: There may be more considerations that we missed, so we should take some time to think about these and add to this section.
 Even in something as seemingly simple as a ball drop game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to think very intentionally about where things can go wrong, and we must do our best to protect against these potential issues. We must also have humility and be willing to accept that sometimes, even with our best efforts, things can still go wrong. When issues are exposed unexpectedly after deployment, we must have processes in place that allow for rapid mitigation.
-There are some areas of concern that we were able to identify for this project. One concern has to do with video capture. Whenever videos are taken, especially when people are captured in the videos, privacy concerns become relevant. 
+There are some areas of concern that we were able to identify for this project. One concern has to do with video capture. Whenever videos are taken, especially when people are captured in the videos, privacy concerns become relevant. For our game to work, it must take video capture of the projection of the game, and a human player must place blocks on this projection. To mitigate any concerns regarding this, the video capture will strictly be live. No components of the video will be saved, either locally or on the web. We will also include a notice informing users that their video will be recorded but we will not save it or do anything with it other than use it for the gameplay. 
+Another concern is that people can get addicted to games. We do not know what we can do to ensure that this does not happen. However, we do think that our game is better than others in this respect, especially since it involves problem-solving and forces users to interact with their physical environments. The best action we think we can take is to limit the number of levels. 
 
 
 
