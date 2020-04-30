@@ -26,7 +26,7 @@ To be able to run this game, you must have OpenCV installed.
 ## Implementation
 **TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
 
-Here is a flow diagram or our setup that gives an overview of the different steps that the program must take in order to run the game.
+Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
 ![Flow Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
 
 ## See It in Action!
@@ -42,7 +42,7 @@ Here is a flow diagram or our setup that gives an overview of the different step
 ## Ethical Considerations
 **TODO**: There may be more considerations that we missed, so we should take some time to think about these and add to this section.
 Even in something as seemingly simple as a ball drop game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to think very intentionally about where things can go wrong, and we must do our best to protect against these potential issues. We must also have humility and be willing to accept that sometimes, even with our best efforts, things can still go wrong. When issues are exposed unexpectedly after deployment, we must have processes in place that allow for rapid mitigation.
-There are a few major areas of concern that we were able to identify for this project. 
+There are some areas of concern that we were able to identify for this project. One concern has to do with video capture. Whenever videos are taken, especially when people are captured in the videos, privacy concerns become relevant. 
 
 
 
