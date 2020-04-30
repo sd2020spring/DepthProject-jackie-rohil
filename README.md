@@ -27,7 +27,7 @@ To be able to run this game, you must have OpenCV installed.
 **TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
 
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
-![Flow Diagram](http://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
+![Flow Diagram]( sd2020spring/DepthProject-jackie-rohil/System Diagram.jpg)
 
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
