@@ -2,7 +2,7 @@
 
 Our project is a game that combines CV and AR into the gameplay. The human player would be able to add obstacles to the game environment by placing them in front of a separate game display screen, OpenCV would detect the obstacles, and these obstacles would be generated through pygame as a component that other features in the game could interact with. This idea is based off of [Puppet.io](https://devpost.com/software/puppet-io), a project we were impressed by at MakeHarvard 2020.
 
-![Game Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/SoftDes%20-%20Final%20Project%20Media/GameDiagramReview1.JPG)
+![Game Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/SoftDes%20-%20Final%20Project%20Media/GameDiagramReview1.jpg)
 
 
 
@@ -27,7 +27,7 @@ To be able to run this game, you must have OpenCV installed.
 **TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
 
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
-![Flow Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.JPG)
+![Flow Diagram](https://github.com/sd2020spring/DepthProject-jackie-rohil/blob/master/System%20Diagram.jpg)
 
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
