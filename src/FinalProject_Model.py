@@ -127,14 +127,19 @@ class Features:
     def __init__(self, x_pos, y_pos, angle, width, height, color):
         """ Creates a Feature object.
         """
-        #expected methods assigning parameters to attributes
-        #self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        pass
+        self.length = length
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.angle = angle
+        self.width = width
+        self.height = height
+        self.color = (0,255,0)
+        self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
     def draw(self):
         """ Draws the Feature.
         """
-        pass
+        pygame.draw.rect(screen, self.color, self.hitbox)
 
 
 class Block(Feature):
@@ -157,19 +162,13 @@ class Block(Feature):
     def __init__(self, length, x_pos, y_pos, angle, width, height):
         """Creates a new Block object with the given attributes.
         """
-        self.length = length
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.angle = angle
-        self.width = width
-        self.height = height
-        self.color = (0,255,0)
-        self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
+        super().__init__(length, x_pos, y_pos, angle, width, height, color=(0,255,0))
+
 
     def draw(self):
         """ Draws the Block based on its attributes.
         """
-        pygame.draw.rect(screen, self.color, self.hitbox)
+        super().draw()
 
 
 class Target(Feature):
@@ -188,15 +187,15 @@ class Target(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, angle=0, width, height, color=(0,255,0)):
+    def __init__(self, length, x_pos, y_pos, width, height):
         """Creates a new Target object with the given attributes.
         """
-        pass
+        super().__init__(length, x_pos, y_pos, angle=0, width, height, color=(0,255,0))
 
     def draw(self):
         """ Draws the Target based on its attributes.
         """
-        pass
+        super().draw()
 
 
 if __name__ == "__main__":
