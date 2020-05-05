@@ -1,4 +1,12 @@
-#FinalProject (View)
+"""
+This is the view file for our Ball Drop Game. It controls the sensory aspects
+of the game (e.g. music, menu/button visuals)
+"""
+
+
+import pygame
+
+
 class SoundEffect:
     """ Represents the sound effects made in the game.
     Files should be in audio file formats such as mp3 and wav
@@ -7,10 +15,10 @@ class SoundEffect:
         start_file: file for music played when on the start menu
         music_file: file for game music played throughout the gameplay
         end_file: file for music played when on the end menu
+        win_file: file for music played when the ball lands on the target
         collision_file: file for sound effect played when a collision occurs
-        jump_file: file for sound effect played when the penguin jumps
     """
-    def __init__(self, start_file, music_file, end_file, collision_file, jump_file):
+    def __init__(self, start_file, music_file, end_file, win_file, collision_file):
         """ Initialize a SoundEffects object.
 
         This function will save the files you provide it with locally if they
@@ -37,6 +45,13 @@ class SoundEffect:
         """
         pass
 
+    def play_win_music(self):
+        """
+        Use pygame.mixer.music.load and pygame.mixer.music.play or other
+        functions to play a sound effect when the player jumps.
+        """
+        pass
+
     def play_collision_sound(self):
         """
         Use pygame.mixer.music.load and pygame.mixer.music.play or other
@@ -45,12 +60,6 @@ class SoundEffect:
         """
         pass
 
-    def play_jump_sound(self):
-        """
-        Use pygame.mixer.music.load and pygame.mixer.music.play or other
-        functions to play a sound effect when the player jumps.
-        """
-        pass
 
 class Button:
     """ Creates a Button overlaid with text to be used in a menu.
@@ -65,10 +74,12 @@ class Button:
         the button
         width: the width of the rectangle bounding the button
         height: the height of the rectangle bounding the button
-        rect: the rectange bounding the button
+        text: the button text
         button_color: the color code for the button
+        rect: the rectange bounding the button
+
     """
-    def __init__(self, font_style, font_size, font_color, x_pos, y_pos, width, height):
+    def __init__(self, font_style, font_size, font_color, x_pos, y_pos, width, height, text, button_color):
         """ Create Button object with given attributes
         """
         #expected methods assigning parameters to attributes
@@ -95,10 +106,12 @@ class Menu:
         the textbox
         width: the width of the rectangle bounding the textbox
         height: the height of the rectangle bounding the textbox
-        rect: the rectange bounding the textbox
+        text: the menu text
         button: a Button object
+        rect: the rectangle bounding the textbox
+
     """
-    def __init__(self, font_style, font_size, font_color, x_pos, y_pos, width, height, button):
+    def __init__(self, font_style, font_size, font_color, x_pos, y_pos, width, height, text, button):
         """ Create Menu object with given attributes
         """
         #expected methods assigning parameters to attributes
@@ -112,9 +125,9 @@ class Menu:
 
 
 class StartMenu(Menu):
-    """ Represents directions for the game and a start button to trigger the
-    beginning of the game. There is no __init__ method so it will be called from
-    the superclass.
+    """ Represents directions for the game, important disclosures, and a start
+    button to trigger the beginning of the game. There is no __init__ method so
+    it will be called from the superclass.
 
     All attributes are inherited from the Menu class.
     """
@@ -134,17 +147,13 @@ class StartMenu(Menu):
 
 
 class EndMenu(Menu):
-    """ Represents the menu after the player has lost the game (the game is
-    endless so there is no winning.)
+    """ Represents the menu after the player has finished the game.
 
-    Unique Attributes:
-        score: the score the player reached
-
-    All other attributes are inherited from the Menu class.
+    All attributes are inherited from the Menu class.
     """
 
-    def text_properties(self, score):
-        """ Alters some of the attributes of the object's text of self with hard-coded
+    def text_properties(self):
+        """ Alters some of the attributes of the object's text of self with
         entries specific to the end menu
         """
         pass
