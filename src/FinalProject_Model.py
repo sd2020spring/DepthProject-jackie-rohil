@@ -154,15 +154,22 @@ class Block(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, angle, width, height, color=(0,255,0)):
+    def __init__(self, length, x_pos, y_pos, angle, width, height):
         """Creates a new Block object with the given attributes.
         """
-        pass
+        self.length = length
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.angle = angle
+        self.width = width
+        self.height = height
+        self.color = (0,255,0)
+        self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
     def draw(self):
         """ Draws the Block based on its attributes.
         """
-        pass
+        pygame.draw.rect(screen, self.color, self.hitbox)
 
 
 class Target(Feature):
