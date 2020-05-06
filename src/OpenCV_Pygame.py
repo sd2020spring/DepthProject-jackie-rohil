@@ -97,7 +97,6 @@ while running:
                     #draw a circle on the pygame screen
                     pygame.draw.circle(screen, (0, 0, 255), (x, y), 25)
 
-
         cv2.imshow("Frame", frame)
         cv2.imshow("Mask", mask)
         #Flip the display

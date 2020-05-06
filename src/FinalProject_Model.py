@@ -21,9 +21,14 @@ information about this project.
 
 
 import pygame
+import time
+from pygame.locals import *
 import sys
 import numpy as np
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
 from FinalProject_Helper import *
@@ -147,11 +152,10 @@ class Feature:
         self.color = color
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
-    def draw(self):
+    def draw(self, screen):
         """ Draws the Feature.
         """
         pygame.draw.rect(screen, self.color, self.hitbox)
-
 
 class Block(Feature):
     """ Represents the blocks that direct the ball
@@ -170,16 +174,23 @@ class Block(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
+<<<<<<< HEAD
     def __init__(self, x_pos, y_pos, angle, width, height, color=(0,255,0)):
         """Creates a new Block object with the given attributes.
         """
         super().__init__(x_pos, y_pos, angle, width, height, color)
+=======
+    def __init__(self, x_pos, y_pos, angle, width, height):
+        """Creates a new Block object with the given attributes.
+        """
+        super().__init__(x_pos, y_pos, angle, width, height, color=(0,255,0))
+>>>>>>> 2f3aef3f9516faef015b419f25a3a71e9ff173c8
 
 
-    def draw(self):
+    def draw(self,screen):
         """ Draws the Block based on its attributes.
         """
-        super().draw()
+        super().draw(screen)
 
 
 class Target(Feature):
@@ -198,10 +209,17 @@ class Target(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
+<<<<<<< HEAD
     def __init__(self, x_pos, y_pos, angle=0, width, height, color=(0,0,255)):
         """Creates a new Target object with the given attributes.
         """
         super().__init__(x_pos, y_pos, angle, width, height, color)
+=======
+    def __init__(self, x_pos, y_pos, width, height):
+        """Creates a new Target object with the given attributes.
+        """
+        super().__init__(x_pos, y_pos, 0, width, height, (0,255,0))
+>>>>>>> 2f3aef3f9516faef015b419f25a3a71e9ff173c8
 
     def draw(self):
         """ Draws the Target based on its attributes.
@@ -211,6 +229,41 @@ class Target(Feature):
 
 if __name__ == "__main__":
     pygame.init()
+    # set screen to size of OpenCV video
+    screen = pygame.display.set_mode([640, 480])
+    camera = ImageController()
+    running = True
+
+    # Fill the background with white
+    screen.fill((255, 255, 255))
+    pygame.display.flip()
+    #capture video from webcam
+    cap = cv2.VideoCapture(0)
+    while running:
+
+        # Did the user click the window close button?
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        isRectangle, x, y = camera.detect_rectangle(cap)
+        print (x,y)
+        if (isRectangle):
+            platform = Block(x,y,0,20,20)
+            platform.draw(screen)
+            # pygame.draw.circle(screen, (0, 0, 255), (x, y), 25)
+
+        #Flip the display
+        pygame.display.flip()
+        screen.fill((255, 255, 255))
+
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
     GameEnvironment()
     #check if x button is pushed to close window
     pygame.quit()
