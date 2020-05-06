@@ -211,6 +211,8 @@ if __name__ == "__main__":
     # Fill the background with white
     screen.fill((255, 255, 255))
     pygame.display.flip()
+    #capture video from webcam
+    cap = cv2.VideoCapture(0)
     while running:
 
         # Did the user click the window close button?
@@ -218,11 +220,12 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 running = False
 
-        isRectangle, x, y = camera.detect_rectangle()
+        isRectangle, x, y = camera.detect_rectangle(cap)
         print (x,y)
         if (isRectangle):
             platform = Block(x,y,0,20,20)
             platform.draw(screen)
+            # pygame.draw.circle(screen, (0, 0, 255), (x, y), 25)
 
         #Flip the display
         pygame.display.flip()

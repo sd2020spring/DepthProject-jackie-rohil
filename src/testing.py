@@ -12,6 +12,8 @@ sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to im
 import cv2
 sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
+from FinalProject_Model import *
+
 
 class ImageController:
     """ Checks for user input from placing the blocks on the wall projection and
@@ -21,6 +23,8 @@ class ImageController:
         '''
         Initializes OpenCV set up
         '''
+        cap = cv2.VideoCapture(0)
+        font = cv2.FONT_HERSHEY_COMPLEX
 
     def nothing(self,x):
         # any operation
@@ -35,11 +39,11 @@ class ImageController:
         cv2.namedWindow("Trackbars")
         #initialize values for trackbars
         cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
-        cv2.createTrackbar("L-S", "Trackbars", 26, 255, lambda x:x)
-        cv2.createTrackbar("L-V", "Trackbars", 103, 255, lambda x:x)
-        cv2.createTrackbar("U-H", "Trackbars", 84, 180, lambda x:x)
+        cv2.createTrackbar("L-S", "Trackbars", 10, 255, lambda x:x)
+        cv2.createTrackbar("L-V", "Trackbars", 134, 255, lambda x:x)
+        cv2.createTrackbar("U-H", "Trackbars", 91, 180, lambda x:x)
         cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
-        cv2.createTrackbar("U-V", "Trackbars", 180, 255, lambda x:x)
+        cv2.createTrackbar("U-V", "Trackbars", 167, 255, lambda x:x)
 
     def create_mask(self, hsv):
         '''
@@ -63,15 +67,16 @@ class ImageController:
         mask = cv2.erode(mask, kernel)
         return mask
 
-    def detect_rectangle(self, cap):
+    def detect_rectangle(self):
         '''
         main program to run OpenCV code
         '''
         isRectangle = False
         #sets font
         font = cv2.FONT_HERSHEY_COMPLEX
-        # #capture video from webcam
-        # cap = cv2.VideoCapture(0)
+        #capture video from webcam
+        cap = cv2.VideoCapture(0)
+
         self.create_trackbars()
         while True:
             _, frame = cap.read()
@@ -91,7 +96,7 @@ class ImageController:
                 area = cv2.contourArea(cnt)
                 #Aproximate sides. True refers to closed polygon
                 approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
-                #get xy positions to place the text
+                #get xy positions to place the
                 x = approx.ravel()[0]
                 y = approx.ravel()[1]
 
@@ -104,6 +109,7 @@ class ImageController:
                     if len(approx) == 4:
                         cv2.putText(frame, "Rectangle", (x, y), font, 1, (0, 0, 0))
                         # Rect(left, top, width, height)
+
                         isRectangle = True
 
             cv2.imshow("Frame", frame)
@@ -114,13 +120,14 @@ class ImageController:
             # #Flip the display
             # pygame.display.flip()
 
-            # #press escape key to end
-            # key = cv2.waitKey(1)
-            # if key == 27:
-            #     break
+            #press escape key to end
+            key = cv2.waitKey(1)
+            if key == 27:
+                break
 
-        # cap.release()
-        # cv2.destroyAllWindows()
+
+        cap.release()
+        cv2.destroyAllWindows()
         return (isRectangle, x, y)
 
 class KeyboardController:
