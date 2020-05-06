@@ -27,7 +27,7 @@ To be able to run this game, you must have OpenCV installed.
 **TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
 
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
-![Flow Diagram](https://drive.google.com/open?id=157fS3HvgMQSeFizJ72D2UFQ0_4YaoF0U)
+![Flow Diagram](https://imgur.com/a/8R2aMs4)
 
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
