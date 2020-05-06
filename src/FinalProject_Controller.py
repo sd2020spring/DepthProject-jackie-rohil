@@ -33,13 +33,20 @@ class ImageController:
         ranges so we can create a mask later of a certain color. OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255). Values are currently set to green because I used a green post it note for testing
         '''
         cv2.namedWindow("Trackbars")
-        #initialize values for trackbars
+        # #initialize values for trackbars
+        # cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
+        # cv2.createTrackbar("L-S", "Trackbars", 26, 255, lambda x:x)
+        # cv2.createTrackbar("L-V", "Trackbars", 103, 255, lambda x:x)
+        # cv2.createTrackbar("U-H", "Trackbars", 84, 180, lambda x:x)
+        # cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
+        # cv2.createTrackbar("U-V", "Trackbars", 180, 255, lambda x:x)
+        #day conditions for Jackie
         cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
-        cv2.createTrackbar("L-S", "Trackbars", 26, 255, lambda x:x)
-        cv2.createTrackbar("L-V", "Trackbars", 103, 255, lambda x:x)
-        cv2.createTrackbar("U-H", "Trackbars", 84, 180, lambda x:x)
+        cv2.createTrackbar("L-S", "Trackbars", 19, 255, lambda x:x)
+        cv2.createTrackbar("L-V", "Trackbars", 130, 255, lambda x:x)
+        cv2.createTrackbar("U-H", "Trackbars", 91, 180, lambda x:x)
         cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
-        cv2.createTrackbar("U-V", "Trackbars", 180, 255, lambda x:x)
+        cv2.createTrackbar("U-V", "Trackbars", 167, 255, lambda x:x)
 
     def create_mask(self, hsv):
         '''

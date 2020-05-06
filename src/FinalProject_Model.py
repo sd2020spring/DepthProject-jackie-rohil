@@ -109,7 +109,7 @@ class Ball:
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.radius = radius
-        self.color = color(255,0,0)
+        self.color = (255,0,0)
         self.hitbox = pygame.Rect(x_pos-radius,y_pos-radius,2*radius,2*radius)
 
     def move(self):
@@ -117,7 +117,7 @@ class Ball:
         """
         pass
 
-    def draw(self):
+    def draw(self, screen):
         """ Draws the ball based on its attributes.
         """
         pygame.draw.circle(screen, self.color, (self.x_pos, self.y_pos), self.radius)
@@ -247,9 +247,9 @@ if __name__ == "__main__":
             #create Block object, compute center, add hitbox to hitboxList,
             #and draw
             platform = Block(x,y,0,20,20)
-            platform_centerx = platform.x + 20/2
-            platform_centery = platform.y + 20/2
-            hitboxList.append(platform)
+            platform_centerx = platform.x_pos + 20/2
+            platform_centery = platform.y_pos + 20/2
+            hitboxList.append(platform.hitbox)
             platform.draw(screen)
             #change ball position, add hitbox to hitboxList, and draw
             if platform_centerx > ball.x_pos:
@@ -260,13 +260,13 @@ if __name__ == "__main__":
                 ball.y_pos += dy
             elif platform_centery < ball.y_pos:
                 ball.y_pos -= dy
-            hitboxList.append(ball)
+            hitboxList.append(ball.hitbox)
             ball.draw(screen)
 
         #change ball position, add it's hitbox to the hitboxList, and draw it
 
         #check for collision between ball and block
-        if pygame.Rect.collidelist(hitboxList) != -1:
+        if pygame.Rect.collidelist(hitboxList[0] != -1):
             textfont = pygame.font.SysFont('Arial', 15)
             textsurface = myfont.render('You Win!', False, (0, 0, 0))
             screen.blit(textsurface,(0,0))
