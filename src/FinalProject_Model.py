@@ -82,7 +82,7 @@ class GameEnvironment:
         """
 
         def collision(self, hitboxList):
-            if pygame.Rect.collidelist(hitboxList) != -1:
+
                 textfont = pygame.font.SysFont('Arial', 15)
                 textsurface = myfont.render('Some Text', False, (0, 0, 0))
                 screen.blit(textsurface,(0,0))
@@ -174,17 +174,10 @@ class Block(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-<<<<<<< HEAD
-    def __init__(self, x_pos, y_pos, angle, width, height, color=(0,255,0)):
-        """Creates a new Block object with the given attributes.
-        """
-        super().__init__(x_pos, y_pos, angle, width, height, color)
-=======
     def __init__(self, x_pos, y_pos, angle, width, height):
         """Creates a new Block object with the given attributes.
         """
         super().__init__(x_pos, y_pos, angle, width, height, color=(0,255,0))
->>>>>>> 2f3aef3f9516faef015b419f25a3a71e9ff173c8
 
 
     def draw(self,screen):
@@ -203,23 +196,16 @@ class Target(Feature):
             - the target is always horizontal
 
     Inherited from Obstacle:
-        x_pos: the x-coordinate of the top left corner of the block
-        y_pos: the y-coordinate of the top left corner of the block
-        width: the width of the block
-        height: the height of the block
-        hitbox: the rectangle that defines the feature's block
+        x_pos: the x-coordinate of the top left corner of the target
+        y_pos: the y-coordinate of the top left corner of the target
+        width: the width of the target
+        height: the height of the target
+        hitbox: the rectangle that defines the feature's target
     """
-<<<<<<< HEAD
-    def __init__(self, x_pos, y_pos, angle=0, width, height, color=(0,0,255)):
-        """Creates a new Target object with the given attributes.
-        """
-        super().__init__(x_pos, y_pos, angle, width, height, color)
-=======
     def __init__(self, x_pos, y_pos, width, height):
         """Creates a new Target object with the given attributes.
         """
         super().__init__(x_pos, y_pos, 0, width, height, (0,255,0))
->>>>>>> 2f3aef3f9516faef015b419f25a3a71e9ff173c8
 
     def draw(self):
         """ Draws the Target based on its attributes.
@@ -248,10 +234,18 @@ if __name__ == "__main__":
 
         isRectangle, x, y = camera.detect_rectangle(cap)
         print (x,y)
+        hitboxList = []
         if (isRectangle):
             platform = Block(x,y,0,20,20)
+            hitboxList.append(platform)
             platform.draw(screen)
             # pygame.draw.circle(screen, (0, 0, 255), (x, y), 25)
+
+        #create ball, add it's hitbox to the hitboxList, and draw it
+
+        #check for collision between ball and block
+        if pygame.Rect.collidelist(hitboxList) != -1:
+            
 
         #Flip the display
         pygame.display.flip()
