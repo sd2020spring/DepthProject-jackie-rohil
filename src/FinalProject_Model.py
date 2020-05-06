@@ -249,6 +249,7 @@ if __name__ == "__main__":
             platform = Block(x,y,0,20,20)
             platform_centerx = platform.x_pos + 20/2
             platform_centery = platform.y_pos + 20/2
+            print(platform.hitbox)
             hitboxList.append(platform.hitbox)
             platform.draw(screen)
             #change ball position, add hitbox to hitboxList, and draw
@@ -264,13 +265,13 @@ if __name__ == "__main__":
             ball.draw(screen)
 
         #change ball position, add it's hitbox to the hitboxList, and draw it
+        print(hitboxList)
 
         #check for collision between ball and block
-        if pygame.Rect.collidelist(hitboxList[0] != -1):
+        if hitboxList[0].collidelist(hitboxList) != -1:
             textfont = pygame.font.SysFont('Arial', 15)
-            textsurface = myfont.render('You Win!', False, (0, 0, 0))
+            textsurface = textfont.render('You Win!', False, (0, 0, 0))
             screen.blit(textsurface,(0,0))
-            break
 
 
         #Flip the display
