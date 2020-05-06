@@ -82,12 +82,9 @@ class GameEnvironment:
         """
 
         def collision(self, hitboxList):
-
-                textfont = pygame.font.SysFont('Arial', 15)
-                textsurface = myfont.render('Some Text', False, (0, 0, 0))
-                screen.blit(textsurface,(0,0))
-                re
-
+            """ TODO: Move relevant code from main function to this function.
+            """
+            pass
 
 class Ball:
     """ Represents the player as a ball.
@@ -104,7 +101,7 @@ class Ball:
         radius: the radius of the ball
         hitbox: the rectangle that defines the ball hitbox
     """
-    def __init__(self, x_pos=100, y_pos=100, radius=50):
+    def __init__(self, x_pos=320, y_pos=240, radius=25):
         """ Creates a Ball object. The values in the parameters
         should not be overwritten, since the ball will always start in the same
         position and have the same size every time the game is played.
@@ -225,6 +222,13 @@ if __name__ == "__main__":
     pygame.display.flip()
     #capture video from webcam
     cap = cv2.VideoCapture(0)
+
+    #create ball object at initial position
+    ball = Ball()
+    dx = 5
+    dy = 5
+    ball.draw(screen)
+
     while running:
 
         # Did the user click the window close button?
@@ -232,20 +236,42 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 running = False
 
+        #contains hitboxes for ball and platform/block
+        hitboxList = []
+
         isRectangle, x, y = camera.detect_rectangle(cap)
         print (x,y)
-        hitboxList = []
+
+        #what should be executed if OpenCV detects a rectangle
         if (isRectangle):
+            #create Block object, compute center, add hitbox to hitboxList,
+            #and draw
             platform = Block(x,y,0,20,20)
+            platform_centerx = platform.x + 20/2
+            platform_centery = platform.y + 20/2
             hitboxList.append(platform)
             platform.draw(screen)
-            # pygame.draw.circle(screen, (0, 0, 255), (x, y), 25)
+            #change ball position, add hitbox to hitboxList, and draw
+            if platform_centerx > ball.x_pos:
+                ball.x_pos += dx
+            elif platform_centerx < ball.x_pos:
+                ball.x_pos -= dx
+            if platform_centery > ball.y_pos:
+                ball.y_pos += dy
+            elif platform_centery < ball.y_pos:
+                ball.y_pos -= dy
+            hitboxList.append(ball)
+            ball.draw(screen)
 
-        #create ball, add it's hitbox to the hitboxList, and draw it
+        #change ball position, add it's hitbox to the hitboxList, and draw it
 
         #check for collision between ball and block
         if pygame.Rect.collidelist(hitboxList) != -1:
-            
+            textfont = pygame.font.SysFont('Arial', 15)
+            textsurface = myfont.render('You Win!', False, (0, 0, 0))
+            screen.blit(textsurface,(0,0))
+            break
+
 
         #Flip the display
         pygame.display.flip()
