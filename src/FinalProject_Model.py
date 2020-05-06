@@ -61,7 +61,7 @@ class GameEnvironment:
             - create KeyboardController object
             - create ImageController object and create blocks within the game
                 based on the human-placed blocks
-            - create Player object and call drawPlayer
+            - create Player object and call its draw function
             - if space bar is pressed, release ball
             - play music that corresponds to specific actions
             - check for collisions between player and blocks based on hitboxes
@@ -75,13 +75,23 @@ class GameEnvironment:
             - when retry button is clicked, change game_status to "play"
             - when home button is clicked, change game_status to "start"
         """
-        pass
+
+        def collision(self, hitboxList):
+            if pygame.Rect.collidelist(hitboxList) != -1:
+                textfont = pygame.font.SysFont('Arial', 15)
+                textsurface = myfont.render('Some Text', False, (0, 0, 0))
+                screen.blit(textsurface,(0,0))
+                re
 
 
 class Ball:
     """ Represents the player as a ball.
     The penguin remains stationary while the environment and obstacles
     move toward it, hence no change position function.
+
+    Unique Attributes:
+        color=(255,0,0)
+            - the ball is always red
 
     Attributes:
         x_pos: the x-coordinate of the center of the ball
@@ -94,22 +104,24 @@ class Ball:
         should not be overwritten, since the ball will always start in the same
         position and have the same size every time the game is played.
         """
-        #expected methods assigning parameters to attributes
-        #self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
-        pass
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.radius = radius
+        self.color = color(255,0,0)
+        self.hitbox = pygame.Rect(x_pos-radius,y_pos-radius,2*radius,2*radius)
 
     def move(self):
         """ Makes the ball move by changing the coordinates of its center point.
         """
         pass
 
-    def drawPlayer(self):
+    def draw(self):
         """ Draws the ball based on its attributes.
         """
-        pass
+        pygame.draw.circle(screen, self.color, (self.x_pos, self.y_pos), self.radius)
 
 
-class Features:
+class Feature:
     """ The superclass that represents a generic feature. Block and target
     are the child classes of this class.
 
@@ -127,13 +139,12 @@ class Features:
     def __init__(self, x_pos, y_pos, angle, width, height, color):
         """ Creates a Feature object.
         """
-        self.length = length
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.angle = angle
         self.width = width
         self.height = height
-        self.color = (0,255,0)
+        self.color = color
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
     def draw(self):
@@ -159,10 +170,10 @@ class Block(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, angle, width, height):
+    def __init__(self, x_pos, y_pos, angle, width, height, color=(0,255,0)):
         """Creates a new Block object with the given attributes.
         """
-        super().__init__(length, x_pos, y_pos, angle, width, height, color=(0,255,0))
+        super().__init__(x_pos, y_pos, angle, width, height, color)
 
 
     def draw(self):
@@ -187,10 +198,10 @@ class Target(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, width, height):
+    def __init__(self, x_pos, y_pos, angle=0, width, height, color=(0,0,255)):
         """Creates a new Target object with the given attributes.
         """
-        super().__init__(length, x_pos, y_pos, angle=0, width, height, color=(0,255,0))
+        super().__init__(x_pos, y_pos, angle, width, height, color)
 
     def draw(self):
         """ Draws the Target based on its attributes.
