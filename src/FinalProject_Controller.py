@@ -13,7 +13,6 @@ import cv2
 sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
-
 class ImageController:
     """ Checks for user input from placing the blocks on the wall projection and
     creates a new block based on the properties of this block.
@@ -22,34 +21,27 @@ class ImageController:
         '''
         Initializes OpenCV set up
         '''
-        #sets font
-        font = cv2.FONT_HERSHEY_COMPLEX
-    def get_feed(self):
-        '''
-        returns the video feed after converting it to HSV
-        '''
-        #capture video from webcam
-        cap = cv2.VideoCapture(0)
-        #get dimensions of video capture so we can make a pygame window of the
-        #same size
-        width  = int(cap.get(3))
-        height = int(cap.get(4))
+
+    def nothing(self,x):
+        # any operation
+        pass
 
     def create_trackbars(self):
         '''
         Creates trackbars to calibrate the background. Sets lower and upper HSV
         ranges so we can create a mask later of a certain color. OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255). Values are currently set to green because I used a green post it note for testing
         '''
+
         cv2.namedWindow("Trackbars")
         #initialize values for trackbars
-        cv2.createTrackbar("L-H", "Trackbars", 27, 180, nothing)
-        cv2.createTrackbar("L-S", "Trackbars", 10, 255, nothing)
-        cv2.createTrackbar("L-V", "Trackbars", 134, 255, nothing)
-        cv2.createTrackbar("U-H", "Trackbars", 91, 180, nothing)
-        cv2.createTrackbar("U-S", "Trackbars", 255, 255, nothing)
-        cv2.createTrackbar("U-V", "Trackbars", 167, 255, nothing)
+        cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
+        cv2.createTrackbar("L-S", "Trackbars", 26, 255, lambda x:x)
+        cv2.createTrackbar("L-V", "Trackbars", 103, 255, lambda x:x)
+        cv2.createTrackbar("U-H", "Trackbars", 84, 180, lambda x:x)
+        cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
+        cv2.createTrackbar("U-V", "Trackbars", 180, 255, lambda x:x)
 
-    def create_mask():
+    def create_mask(self, hsv):
         '''
         creates mask with HSV values
         '''
@@ -69,18 +61,23 @@ class ImageController:
         #erode makes the object we are masking smaller. Cleans up data by taking
         #away random small dots
         mask = cv2.erode(mask, kernel)
+        return mask
 
-    def run_camera():
+    def detect_rectangle(self):
         '''
         main program to run OpenCV code
         '''
-        get_feed()
-        create_trackbars()
+        isRectangle = False
+        #sets font
+        font = cv2.FONT_HERSHEY_COMPLEX
+        #capture video from webcam
+        cap = cv2.VideoCapture(0)
+        self.create_trackbars()
         while True:
             _, frame = cap.read()
             #convert into HSV color space
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            create_mask()
+            mask = self.create_mask(hsv)
             # Contours detection
             if int(cv2.__version__[0]) > 3:
                 # Opencv 4.x.x
@@ -94,7 +91,7 @@ class ImageController:
                 area = cv2.contourArea(cnt)
                 #Aproximate sides. True refers to closed polygon
                 approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
-                #get xy positions to place the
+                #get xy positions to place the text
                 x = approx.ravel()[0]
                 y = approx.ravel()[1]
 
@@ -107,25 +104,25 @@ class ImageController:
                     if len(approx) == 4:
                         cv2.putText(frame, "Rectangle", (x, y), font, 1, (0, 0, 0))
                         # Rect(left, top, width, height)
-                        platform = pygame.Rect(0, 0, 40, 10)
-                        platform.centerx = x
-                        platform.centery = y
-                        pygame.draw.rect(screen, (0,0,255), platform)
+                        isRectangle = True
 
             cv2.imshow("Frame", frame)
             cv2.imshow("Mask", mask)
-
-            #Update the full display surface to the screen
-            pygame.display.flip()
-            screen.fill((255, 255, 255))
-
-            #press escape key to end
-            key = cv2.waitKey(1)
-            if key == 27:
+            if(isRectangle == True):
                 break
 
-        cap.release()
-        cv2.destroyAllWindows()
+            # #Flip the display
+            # pygame.display.flip()
+
+            # #press escape key to end
+            # key = cv2.waitKey(1)
+            # if key == 27:
+            #     break
+
+        # cap.release()
+        # cv2.destroyAllWindows()
+        return (isRectangle, x, y)
+
 class KeyboardController:
     """ Checks for user input from clicking keys on the keyboard in order to
     move the ball.

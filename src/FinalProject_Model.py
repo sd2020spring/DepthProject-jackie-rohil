@@ -21,9 +21,14 @@ information about this project.
 
 
 import pygame
+import time
+from pygame.locals import *
 import sys
 import numpy as np
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
 from FinalProject_Helper import *
@@ -109,7 +114,7 @@ class Ball:
         pass
 
 
-class Features:
+class Feature:
     """ The superclass that represents a generic feature. Block and target
     are the child classes of this class.
 
@@ -127,7 +132,6 @@ class Features:
     def __init__(self, x_pos, y_pos, angle, width, height, color):
         """ Creates a Feature object.
         """
-        self.length = length
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.angle = angle
@@ -136,11 +140,10 @@ class Features:
         self.color = (0,255,0)
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
-    def draw(self):
+    def draw(self, screen):
         """ Draws the Feature.
         """
         pygame.draw.rect(screen, self.color, self.hitbox)
-
 
 class Block(Feature):
     """ Represents the blocks that direct the ball
@@ -159,16 +162,16 @@ class Block(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, angle, width, height):
+    def __init__(self, x_pos, y_pos, angle, width, height):
         """Creates a new Block object with the given attributes.
         """
-        super().__init__(length, x_pos, y_pos, angle, width, height, color=(0,255,0))
+        super().__init__(x_pos, y_pos, angle, width, height, color=(0,255,0))
 
 
-    def draw(self):
+    def draw(self,screen):
         """ Draws the Block based on its attributes.
         """
-        super().draw()
+        super().draw(screen)
 
 
 class Target(Feature):
@@ -187,10 +190,10 @@ class Target(Feature):
         height: the height of the block
         hitbox: the rectangle that defines the feature's block
     """
-    def __init__(self, length, x_pos, y_pos, width, height):
+    def __init__(self, x_pos, y_pos, width, height):
         """Creates a new Target object with the given attributes.
         """
-        super().__init__(length, x_pos, y_pos, angle=0, width, height, color=(0,255,0))
+        super().__init__(x_pos, y_pos, 0, width, height, (0,255,0))
 
     def draw(self):
         """ Draws the Target based on its attributes.
@@ -200,6 +203,38 @@ class Target(Feature):
 
 if __name__ == "__main__":
     pygame.init()
+    # set screen to size of OpenCV video
+    screen = pygame.display.set_mode([640, 480])
+    camera = ImageController()
+    running = True
+
+    # Fill the background with white
+    screen.fill((255, 255, 255))
+    pygame.display.flip()
+    while running:
+
+        # Did the user click the window close button?
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        isRectangle, x, y = camera.detect_rectangle()
+        print (x,y)
+        if (isRectangle):
+            platform = Block(x,y,0,20,20)
+            platform.draw(screen)
+
+        #Flip the display
+        pygame.display.flip()
+        screen.fill((255, 255, 255))
+
+        key = cv2.waitKey(1)
+        if key == 27:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
     GameEnvironment()
     #check if x button is pushed to close window
     pygame.quit()
