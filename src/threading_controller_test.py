@@ -51,6 +51,7 @@ class ImageController:
             if self.cap.isOpened():
                 (self.status, self.frame) = self.cap.read()
             time.sleep(self.FPS)
+            print("hi")
 
     def show_frame(self):
         cv2.imshow('Frame', self.frame)
@@ -67,7 +68,7 @@ class ImageController:
         '''
         cv2.namedWindow("Trackbars")
         # #initialize values for trackbars
-        cv2.createTrackbar("L-H", "Trackbars", 0, 180, lambda x:x)
+        cv2.createTrackbar("L-H", "Trackbars", 12, 180, lambda x:x)
         cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
         cv2.createTrackbar("L-V", "Trackbars", 125, 255, lambda x:x)
         cv2.createTrackbar("U-H", "Trackbars", 81, 180, lambda x:x)
@@ -78,7 +79,7 @@ class ImageController:
         '''
         creates mask with HSV values
         '''
-
+        time.sleep(1/100)
         #convert frame into HSV color space
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
 
