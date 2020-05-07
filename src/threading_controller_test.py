@@ -9,9 +9,9 @@ import pygame
 from threading import Thread
 import time
 import sys
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
 
@@ -175,9 +175,6 @@ if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode([640, 480])
     running = True
-
-
-
 
     while running:
         screen.fill((255, 255, 255))

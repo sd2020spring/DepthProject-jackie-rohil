@@ -245,19 +245,21 @@ class Target(Feature):
 
 
 if __name__ == "__main__":
+    camera = ImageController()
+    camera.create_trackbars()
+
     pygame.init()
-    game = GameEnvironment()
     # set screen to size of OpenCV video
     screen = pygame.display.set_mode([640, 480])
-    camera = ImageController()
+
+    game = GameEnvironment()
+
     running = True
 
     # Fill the background with the color specified the game object
     screen.fill(game.bkgd_color)
     pygame.display.flip()
     #capture video from webcam
-    cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
     #create ball object at initial position
     game.createBall(screen)
@@ -268,24 +270,32 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 running = False
 
+        screen.fill(game.bkgd_color)
+
         #contains hitboxes for ball and block
         hitboxList = []
 
-        #says if rectangle has been detected, gives x and y pos if it has
-        isRectangle, x, y = camera.detect_rectangle(cap)
+        try:
+            camera.create_hsv_mask()
+            camera.show_frames()
+            #says if rectangle has been detected, gives x and y pos if it has
+            isRectangle, x, y = camera.detect_rectangle()
+            #what should be executed if OpenCV detects a rectangle
+            if (isRectangle):
+                #create Block object, add hitbox to hitboxList, and draw
+                game.placeBlock(screen,x,y,0,20,20)
+                hitboxList.append(game.block.hitbox)
+                #change ball position, add hitbox to hitboxList, and draw
+                game.moveBall(screen)
+                hitboxList.append(game.ball.hitbox)
+            #check for collision between ball and block
+            print(hitboxList)
+            if hitboxList.len() != 0:
+                if hitboxList[0].collidelist(hitboxList) != -1:
+                    collisiontext(screen)
+        except AttributeError:
+            pass
 
-        #what should be executed if OpenCV detects a rectangle
-        if (isRectangle):
-            #create Block object, add hitbox to hitboxList, and draw
-            game.placeBlock(screen,x,y,0,20,20)
-            hitboxList.append(game.block.hitbox)
-            #change ball position, add hitbox to hitboxList, and draw
-            game.moveBall(screen)
-            hitboxList.append(game.ball.hitbox)
-
-        #check for collision between ball and block
-        if hitboxList[0].collidelist(hitboxList) != -1:
-            collisiontext(screen)
 
         #Flip the display
         pygame.display.flip()

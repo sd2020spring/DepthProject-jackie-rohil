@@ -6,11 +6,12 @@ the gameplay mechanics.
 
 
 import pygame
-from pygame.locals import *
+from threading import Thread
+import time
 import sys
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
 
@@ -22,10 +23,39 @@ class ImageController:
         '''
         Initializes OpenCV set up
         '''
+        #start capturing video from webcam
+        self.cap = cv2.VideoCapture(0)
+        #sets amount of frames stored in the internal buffer memory. Since the
+        #buffer is only storing 2 frames, we are always getting live feed.
+        self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
-    def nothing(self,x):
-        # any operation
-        pass
+        # FPS = 1/X
+        # X = desired FPS. Our webcam has a FPS of 30
+        self.FPS = 1/30
+        self.FPS_MS = int(self.FPS * 1000)
+
+        # Start frame retrieval thread
+        self.thread = Thread(target=self.update, args=())
+        #stops this thread if the other program stops running
+        self.thread.daemon = True
+        self.thread.start()
+
+        #sets font
+        self.font = cv2.FONT_HERSHEY_COMPLEX
+
+    def update(self):
+        '''
+        auto updates frame every FPS
+        '''
+        while True:
+            if self.cap.isOpened():
+                (self.status, self.frame) = self.cap.read()
+            time.sleep(self.FPS)
+
+    def show_frames(self):
+        cv2.imshow('Frame', self.frame)
+        cv2.imshow("Mask", self.mask)
+        cv2.waitKey(self.FPS_MS)
 
     def create_trackbars(self):
         '''
@@ -34,24 +64,20 @@ class ImageController:
         '''
         cv2.namedWindow("Trackbars")
         # #initialize values for trackbars
-        # cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
-        # cv2.createTrackbar("L-S", "Trackbars", 26, 255, lambda x:x)
-        # cv2.createTrackbar("L-V", "Trackbars", 103, 255, lambda x:x)
-        # cv2.createTrackbar("U-H", "Trackbars", 84, 180, lambda x:x)
-        # cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
-        # cv2.createTrackbar("U-V", "Trackbars", 180, 255, lambda x:x)
-        #day conditions for Jackie
-        cv2.createTrackbar("L-H", "Trackbars", 27, 180, lambda x:x)
-        cv2.createTrackbar("L-S", "Trackbars", 19, 255, lambda x:x)
-        cv2.createTrackbar("L-V", "Trackbars", 130, 255, lambda x:x)
-        cv2.createTrackbar("U-H", "Trackbars", 91, 180, lambda x:x)
-        cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
-        cv2.createTrackbar("U-V", "Trackbars", 167, 255, lambda x:x)
+        cv2.createTrackbar("L-H", "Trackbars", 12, 180, lambda x:x)
+        cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
+        cv2.createTrackbar("L-V", "Trackbars", 125, 255, lambda x:x)
+        cv2.createTrackbar("U-H", "Trackbars", 81, 180, lambda x:x)
+        cv2.createTrackbar("U-S", "Trackbars", 251, 255, lambda x:x)
+        cv2.createTrackbar("U-V", "Trackbars", 240, 255, lambda x:x)
 
-    def create_mask(self, hsv):
+    def create_hsv_mask(self):
         '''
         creates mask with HSV values
         '''
+        #convert frame into HSV color space
+        hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
+
         l_h = cv2.getTrackbarPos("L-H", "Trackbars")
         l_s = cv2.getTrackbarPos("L-S", "Trackbars")
         l_v = cv2.getTrackbarPos("L-V", "Trackbars")
@@ -67,68 +93,45 @@ class ImageController:
         kernel = np.ones((5, 5), np.uint8)
         #erode makes the object we are masking smaller. Cleans up data by taking
         #away random small dots
-        mask = cv2.erode(mask, kernel)
-        return mask
+        self.mask = cv2.erode(mask, kernel)
 
-    def detect_rectangle(self, cap):
-        '''
-        main program to run OpenCV code
-        '''
+    def detect_rectangle(self):
         isRectangle = False
-        #sets font
-        font = cv2.FONT_HERSHEY_COMPLEX
-        # #capture video from webcam
-        # cap = cv2.VideoCapture(0)
-        self.create_trackbars()
-        while True:
-            _, frame = cap.read()
-            #convert into HSV color space
-            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            mask = self.create_mask(hsv)
-            # Contours detection
-            if int(cv2.__version__[0]) > 3:
-                # Opencv 4.x.x
-                # looking for contours in mask. Outputs points in the image.
-                contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-            else:
-                # Opencv 3.x.x
-                _, contours, _ = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-            for cnt in contours:
-                area = cv2.contourArea(cnt)
-                #Aproximate sides. True refers to closed polygon
-                approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
-                #get xy positions to place the text
-                x = approx.ravel()[0]
-                y = approx.ravel()[1]
+        if int(cv2.__version__[0]) > 3:
+            # Opencv 4.x.x
+            # looking for contours in mask. Outputs points in the image.
+            contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        else:
+            # Opencv 3.x.x
+            _, contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-                # only detect objects that are bigger to remove noise
-                if area > 400:
-                    # draws points found in contours
-                    # (fram, ___, ___, color of contour, thickness of contour line)
-                    cv2.drawContours(frame, [approx], 0, (0, 0, 0), 5)
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            #Aproximate sides. True refers to closed polygon
+            approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
+            #get xy positions to place the text
+            x = approx.ravel()[0]
+            y = approx.ravel()[1]
 
-                    if len(approx) == 4:
-                        cv2.putText(frame, "Rectangle", (x, y), font, 1, (0, 0, 0))
-                        # Rect(left, top, width, height)
-                        isRectangle = True
+            # only detect objects that are bigger to remove noise
+            if area > 400:
+                # draws points found in contours
+                cv2.drawContours(self.frame, [approx], 0, (0, 0, 0), 5)
 
-            cv2.imshow("Frame", frame)
-            cv2.imshow("Mask", mask)
-            if(isRectangle == True):
-                break
+                if len(approx) == 4:
+                    cv2.putText(self.frame, "Rectangle", (x, y), self.font, 1, (0, 0, 0))
+                    isRectangle = True
 
-            # #Flip the display
-            # pygame.display.flip()
+        if(isRectangle == True):
+            return (isRectangle, x, y)
+        else:
+            return (False, 0, 0)
 
-            # #press escape key to end
-            # key = cv2.waitKey(1)
-            # if key == 27:
-            #     break
+    def end_capture(self):
 
-        # cap.release()
-        # cv2.destroyAllWindows()
-        return (isRectangle, x, y)
+        self.cap.release()
+        cv2.destroyAllWindows()
 
 class KeyboardController:
     """ Checks for user input from clicking keys on the keyboard in order to
@@ -164,3 +167,34 @@ class MouseController:
         allow the users to navigate the menu pages.
         """
         pass
+
+if __name__ == "__main__":
+
+    camera = ImageController()
+    camera.create_trackbars()
+
+    pygame.init()
+    screen = pygame.display.set_mode([640, 480])
+    running = True
+
+    while running:
+        screen.fill((255, 255, 255))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        try:
+            camera.create_hsv_mask()
+            camera.detect_rectangle()
+            camera.show_frames()
+        except AttributeError:
+            pass
+
+        # display pygame graphics
+        pygame.display.flip()
+        screen.fill((255, 255, 255))
+
+        #press escape key to end
+        key = cv2.waitKey(1)
+        if key == 27:
+            camera.end_capture()
