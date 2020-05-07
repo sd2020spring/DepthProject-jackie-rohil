@@ -26,9 +26,9 @@ from threading import Thread
 from pygame.locals import *
 import sys
 import numpy as np
-#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
@@ -90,7 +90,7 @@ class GameEnvironment:
         self.ball = Ball()
         self.ball.draw(screen)
 
-    def moveBall(self, screen):
+    def moveBall(self):
         dx = 5
         dy = 5
         if self.block.x_center > self.ball.x_pos:
@@ -101,17 +101,29 @@ class GameEnvironment:
             self.ball.y_pos += dy
         elif self.block.y_center < self.ball.y_pos:
             self.ball.y_pos -= dy
+        #self.ball.hitbox = pygame.Rect(self.ball.x_pos, self.ball.y_pos, self.ball.width, self.ball.height)
+
+    def drawBall(self, screen):
         self.ball.draw(screen)
 
-    def placeBlock(self, screen, x, y, angle, width, height):
+    def createBlock(self, screen, x, y, angle, width, height):
         self.block = Block(x, y, angle, width, height)
+
+    def drawBlock(self, screen):
         self.block.draw(screen)
 
     def collisiontext(self, screen):
         """ TODO: Move relevant code from main function to this function.
         """
         textfont = pygame.font.SysFont('Arial', 15)
-        textsurface = textfont.render('You Win!', False, (0, 0, 0))
+        textsurface = textfont.render('You Lose!', False, (0, 0, 0))
+        screen.blit(textsurface,(0,0))
+
+    def erasecollisiontext(self, screen):
+        """ TODO: Move relevant code from main function to this function.
+        """
+        textfont = pygame.font.SysFont('Arial', 15)
+        textsurface = textfont.render('', False, (0, 0, 0))
         screen.blit(textsurface,(0,0))
 
 class Ball:
@@ -129,7 +141,7 @@ class Ball:
         radius: the radius of the ball
         hitbox: the rectangle that defines the ball hitbox
     """
-    def __init__(self, x_pos=320, y_pos=240, radius=25):
+    def __init__(self, x_pos=320, y_pos=240, radius=50):
         """ Creates a Ball object. The values in the parameters
         should not be overwritten, since the ball will always start in the same
         position and have the same size every time the game is played.
@@ -263,6 +275,9 @@ if __name__ == "__main__":
 
     #create ball object at initial position
     game.createBall(screen)
+
+    shapes_were_created = False
+    last_hitboxList = []
     while running:
 
         # Did the user click the window close button?
@@ -274,28 +289,42 @@ if __name__ == "__main__":
 
         #contains hitboxes for ball and block
         hitboxList = []
-
+        collisionflag = False
+        block_width = 100
         try:
             camera.create_hsv_mask()
-            camera.show_frames()
+
             #says if rectangle has been detected, gives x and y pos if it has
             isRectangle, x, y = camera.detect_rectangle()
             #what should be executed if OpenCV detects a rectangle
             if (isRectangle):
                 #create Block object, add hitbox to hitboxList, and draw
-                game.placeBlock(screen,x,y,0,20,20)
+                game.createBlock(screen,x-block_width,y,0,block_width,block_width)
                 hitboxList.append(game.block.hitbox)
                 #change ball position, add hitbox to hitboxList, and draw
-                game.moveBall(screen)
+                game.moveBall()
                 hitboxList.append(game.ball.hitbox)
             #check for collision between ball and block
-            print(hitboxList)
-            if hitboxList.len() != 0:
-                if hitboxList[0].collidelist(hitboxList) != -1:
-                    collisiontext(screen)
+            shapes_were_created = True
+            if len(hitboxList) != 0:
+                print("hitboxlist not zero")
+                print(hitboxList)
+                print(type(hitboxList[0]))
+                if hitboxList[0].colliderect(hitboxList[1]):
+                    game.collisiontext(screen)
+                    print("collision")
+                    collisionflag = True
+            camera.show_frames()
         except AttributeError:
             pass
 
+        if collisionflag == False:
+            game.erasecollisiontext(screen)
+
+        game.drawBall(screen)
+        if shapes_were_created == True:
+            print("shapes were created")
+            game.drawBlock(screen)
 
         #Flip the display
         pygame.display.flip()
@@ -305,8 +334,6 @@ if __name__ == "__main__":
         if key == 27:
             break
 
-    cap.release()
-    cv2.destroyAllWindows()
-
+    camera.end_capture()
     #check if x button is pushed to close window
     pygame.quit()
