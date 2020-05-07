@@ -312,7 +312,7 @@ if __name__ == "__main__":
     # Create ball object at initial position
     game.createBall(screen)
 
-    # Flag so that draw does not occue if try block fails on first attempt
+    # Flag so that draw does not occur if try block fails on first attempt
     shapes_were_created = False
 
     while running:
