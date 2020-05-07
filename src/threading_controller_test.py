@@ -51,13 +51,9 @@ class ImageController:
             if self.cap.isOpened():
                 (self.status, self.frame) = self.cap.read()
             time.sleep(self.FPS)
-            print("hi")
 
-    def show_frame(self):
+    def show_frames(self):
         cv2.imshow('Frame', self.frame)
-        cv2.waitKey(self.FPS_MS)
-
-    def show_mask(self):
         cv2.imshow("Mask", self.mask)
         cv2.waitKey(self.FPS_MS)
 
@@ -79,7 +75,6 @@ class ImageController:
         '''
         creates mask with HSV values
         '''
-        time.sleep(1/100)
         #convert frame into HSV color space
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
 
@@ -181,17 +176,21 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode([640, 480])
     running = True
 
+
+
+
     while running:
         screen.fill((255, 255, 255))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
-        camera.create_hsv_mask()
-        camera.detect_rectangle()
-        camera.show_frame()
-        camera.show_mask()
+        try:
+            camera.create_hsv_mask()
+            camera.detect_rectangle()
+            camera.show_frames()
+        except AttributeError:
+            pass
 
         # display pygame graphics
         pygame.display.flip()
