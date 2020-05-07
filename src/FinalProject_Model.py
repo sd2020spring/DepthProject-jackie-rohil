@@ -343,8 +343,7 @@ if __name__ == "__main__":
                 # Change ball position, add hitbox to hitboxList, and draw
                 game.moveBall()
                 hitboxList.append(game.ball.hitbox)
-            # Check for collision between ball and block
-            shapes_were_created = True
+                shapes_were_created = True
             # If hitboxList has been populated, check for collision, if collision
             # then display collision text and set flag to true
             if len(hitboxList) != 0:
