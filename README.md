@@ -19,7 +19,7 @@ To be able to run this game, you must have OpenCV installed.
 
 ## How to Run Our Game
 **TODO**: List descriptions of each file, what they do, and what order to run them in. 
-The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, and *FinalProject_Controller.py*, all located within the */src* folder of our GitHub repository. To run our game, simply download these files and run *FinalProject_Model.py* using your preferred method (using an IDE, from the terminal, etc.)!
+The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *OpenCV_Pygame. py*, all located within the */src* folder of our GitHub repository. To run our game, simply download these files and run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.)!
 
 
 # The Game: Development and Results
