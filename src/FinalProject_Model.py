@@ -22,12 +22,13 @@ information about this project.
 
 import pygame
 import time
+from threading import Thread
 from pygame.locals import *
 import sys
 import numpy as np
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
@@ -49,7 +50,10 @@ class GameEnvironment:
     def __init__(self, bkgd_color=(0,200,255), game_status="start"):
         """ Starts the game at the start menu.
         """
-        pass
+        self.bkgd_color = bkgd_color
+        self.game_status = "start"
+        #self.ball = ball
+        #self.block = block
 
     def gameplay(self):
         """ CONTROLS THE FLOW OF THE GAME.
@@ -80,11 +84,35 @@ class GameEnvironment:
             - when retry button is clicked, change game_status to "play"
             - when home button is clicked, change game_status to "start"
         """
+        pass
 
-        def collision(self, hitboxList):
-            """ TODO: Move relevant code from main function to this function.
-            """
-            pass
+    def createBall(self, screen):
+        self.ball = Ball()
+        self.ball.draw(screen)
+
+    def moveBall(self, screen):
+        dx = 5
+        dy = 5
+        if self.block.x_center > self.ball.x_pos:
+            self.ball.x_pos += dx
+        elif self.block.x_center < self.ball.x_pos:
+            self.ball.x_pos -= dx
+        if self.block.y_center > self.ball.y_pos:
+            self.ball.y_pos += dy
+        elif self.block.y_center < self.ball.y_pos:
+            self.ball.y_pos -= dy
+        self.ball.draw(screen)
+
+    def placeBlock(self, screen, x, y, angle, width, height):
+        self.block = Block(x, y, angle, width, height)
+        self.block.draw(screen)
+
+    def collisiontext(self, screen):
+        """ TODO: Move relevant code from main function to this function.
+        """
+        textfont = pygame.font.SysFont('Arial', 15)
+        textsurface = textfont.render('You Win!', False, (0, 0, 0))
+        screen.blit(textsurface,(0,0))
 
 class Ball:
     """ Represents the player as a ball.
@@ -124,7 +152,7 @@ class Ball:
 
 
 class Feature:
-    """ The superclass that represents a generic feature. Block and target
+    """ The superclass that represents a generic rectangular feature. Block and target
     are the child classes of this class.
 
     Attributes:
@@ -135,6 +163,8 @@ class Feature:
                 horizontal)
         width: the width of the feature
         height: the height of the feature
+        x_center: the x_coordinate of the center of the block
+        y_center: the y_coordinate of the center of the block
         color: the color of the feature
         hitbox: the rectangle that defines the feature's hitbox
     """
@@ -146,6 +176,8 @@ class Feature:
         self.angle = angle
         self.width = width
         self.height = height
+        self.x_center = self.x_pos + self.width/2
+        self.y_center = self.y_pos + self.height/2
         self.color = color
         self.hitbox = pygame.Rect(self.x_pos, self.y_pos, self.width, self.height)
 
@@ -164,6 +196,8 @@ class Block(Feature):
     Inherited from Obstacle:
         x_pos: the x-coordinate of the top left corner of the block
         y_pos: the y-coordinate of the top left corner of the block
+        x_center: the x_coordinate of the center of the block
+        y_center: the y_coordinate of the center of the block
         angle: the angle between the x-axis and the long side of the block which
                 contains the top left corner (the block is not necessarily
                 horizontal)
@@ -212,23 +246,21 @@ class Target(Feature):
 
 if __name__ == "__main__":
     pygame.init()
+    game = GameEnvironment()
     # set screen to size of OpenCV video
     screen = pygame.display.set_mode([640, 480])
     camera = ImageController()
     running = True
 
-    # Fill the background with white
-    screen.fill((255, 255, 255))
+    # Fill the background with the color specified the game object
+    screen.fill(game.bkgd_color)
     pygame.display.flip()
     #capture video from webcam
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
     #create ball object at initial position
-    ball = Ball()
-    dx = 5
-    dy = 5
-    ball.draw(screen)
-
+    game.createBall(screen)
     while running:
 
         # Did the user click the window close button?
@@ -236,43 +268,24 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 running = False
 
-        #contains hitboxes for ball and platform/block
+        #contains hitboxes for ball and block
         hitboxList = []
 
+        #says if rectangle has been detected, gives x and y pos if it has
         isRectangle, x, y = camera.detect_rectangle(cap)
-        print (x,y)
 
         #what should be executed if OpenCV detects a rectangle
         if (isRectangle):
-            #create Block object, compute center, add hitbox to hitboxList,
-            #and draw
-            platform = Block(x,y,0,20,20)
-            platform_centerx = platform.x_pos + 20/2
-            platform_centery = platform.y_pos + 20/2
-            print(platform.hitbox)
-            hitboxList.append(platform.hitbox)
-            platform.draw(screen)
+            #create Block object, add hitbox to hitboxList, and draw
+            game.placeBlock(screen,x,y,0,20,20)
+            hitboxList.append(game.block.hitbox)
             #change ball position, add hitbox to hitboxList, and draw
-            if platform_centerx > ball.x_pos:
-                ball.x_pos += dx
-            elif platform_centerx < ball.x_pos:
-                ball.x_pos -= dx
-            if platform_centery > ball.y_pos:
-                ball.y_pos += dy
-            elif platform_centery < ball.y_pos:
-                ball.y_pos -= dy
-            hitboxList.append(ball.hitbox)
-            ball.draw(screen)
-
-        #change ball position, add it's hitbox to the hitboxList, and draw it
-        print(hitboxList)
+            game.moveBall(screen)
+            hitboxList.append(game.ball.hitbox)
 
         #check for collision between ball and block
         if hitboxList[0].collidelist(hitboxList) != -1:
-            textfont = pygame.font.SysFont('Arial', 15)
-            textsurface = textfont.render('You Win!', False, (0, 0, 0))
-            screen.blit(textsurface,(0,0))
-
+            collisiontext(screen)
 
         #Flip the display
         pygame.display.flip()
@@ -285,6 +298,5 @@ if __name__ == "__main__":
     cap.release()
     cv2.destroyAllWindows()
 
-    GameEnvironment()
     #check if x button is pushed to close window
     pygame.quit()
