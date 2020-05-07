@@ -1,6 +1,6 @@
 # What is this?
 Current Project Description:
-We were unable to complete our original idea in the time frame allotted, so we pivoted to a different idea, which is a simple game that uses CV to detect a real-life rectangle, creates a virtual rectangle based on these properties, and has a vitual circle chase it. You lose if the circle is able to catch up to and collide with the rectangle, so you have to move your real-life rectangle quickly and with dexterity in order to not lose.
+We were unable to complete our original idea in the time frame allotted, so we pivoted to a different idea, which is a game that uses CV to detect a real-life rectangle, creates a virtual rectangle based on these properties, and has a vitual circle chase it. You lose if the circle is able to catch up to and collide with the rectangle, so you have to move your real-life rectangle quickly and with dexterity in order to not lose.
 
 ***In the near future, we hope to complete our original idea. We have described this idea below so that you can see where we are heading.***
 
@@ -28,14 +28,27 @@ To be able to run this game, you must have OpenCV installed.
 - For MacOS, click [here](https://docs.opencv.org/master/d0/db2/tutorial_macos_install.html)
 
 You must also have pygame installed.
-- Ganerally speaking, you can use the command `python3 -m pip install -U pygame --user` to install pygame and use the command `python3 -m pygame.examples.aliens` to test that the installation was successful.
+- Generally speaking, you can use the command `python3 -m pip install -U pygame --user` to install pygame and use the command `python3 -m pygame.examples.aliens` to test that the installation was successful.
 - If the installation did not occur successfully, or if you would like more details, click [here](https://www.pygame.org/wiki/GettingStarted) 
 
 If you have ROS installed on your computer, OpenCV may not run properly. To resolve this, try uncommenting out the two sys.path lines toward the top of the *FinalProject_Model.py* file. Click [here](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv) for more details.
 
 ## How to Run Our Game
-**TODO**: List descriptions of each file, what they do, and what order to run them in. 
-The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *OpenCV_Pygame. py*, all located within the */src* folder of our GitHub repository. To run our game, simply download these files and run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.)!
+The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *OpenCV_Pygame. py*, all located within the */src* folder of our GitHub repository. To run our game, first download these files. 
+
+Before calibrating or running the game, make sure that your webcam is not being used by any other application.
+
+General Calibration:
+- Run *OpenCV_Pygame. py*. Four windows should appear. 
+- View the taskbar, mask, and frame windows simulataneously.
+- Hold a rectangle up within the frame of the webcam.
+- Adjust the trackbars so that, in the mask window, the rectangle appears white while everything else appears black. Try to get rid of any white pixels in the parts of the mask that should be black or any black pixels within the rectangle, even if they only flash on the screen temporarily, as these can reduce the accuracy of the rectangle detection algorithm. Ideally, in the frame window, the rectangle should constantly be outlined and display the word rectangle next to it. We recommend taking your time to get the calibration right because this can have a huge impact on how well the game works.
+
+Projector Calibration:
+If you would like to play this game as an AR game, please follow the additional calibration guidelines below.
+**TODO:** add projector calibration guidelines
+
+Once everything is calibrated, simply run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.) to play our game!
 
 ## Specifications of Systems We Tested On
 It is possible that for some unforseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
