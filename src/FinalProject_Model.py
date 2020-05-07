@@ -252,8 +252,8 @@ if __name__ == "__main__":
     camera = ImageController()
     running = True
 
-    # Fill the background with white
-    screen.fill((255, 255, 255))
+    # Fill the background with the color specified the game object
+    screen.fill(game.bkgd_color)
     pygame.display.flip()
     #capture video from webcam
     cap = cv2.VideoCapture(0)
@@ -279,11 +279,9 @@ if __name__ == "__main__":
             #create Block object, add hitbox to hitboxList, and draw
             game.placeBlock(screen,x,y,0,20,20)
             hitboxList.append(game.block.hitbox)
-            game.block.draw(screen)
             #change ball position, add hitbox to hitboxList, and draw
             game.moveBall(screen)
             hitboxList.append(game.ball.hitbox)
-            game.ball.draw(screen)
 
         #check for collision between ball and block
         if hitboxList[0].collidelist(hitboxList) != -1:
