@@ -4,8 +4,12 @@ Our project is a game that combines CV and AR into the gameplay. The human playe
 
 ![Game Diagram](https://i.imgur.com/4PQ7gKF.jpg)
 
+
+
 # Important Disclosure
 This game captures video using your computer webcam. This video feed is near-live capture, and it is not saved locally or to the web. The video is only used to allow for the game to be played. By playing this game, you consent to having video taken, which may involve yourself or other people.
+
+
 
 # Instructions
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -15,12 +19,29 @@ To get started, clone this respository onto your device.
 ## Prerequisites
 To be able to run this game, you must have OpenCV installed. 
 - For Ubuntu, use the command `$ pip install opencv-python` or click [here](https://docs.opencv.org/3.4/d2/de6/tutorial_py_setup_in_ubuntu.html) for instructions
+- For any Linux distro, click [here](https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html)
 - For Windows, click [here](https://docs.opencv.org/master/d5/de5/tutorial_py_setup_in_windows.html) for instructions
+- For MacOS, click [here](https://docs.opencv.org/master/d0/db2/tutorial_macos_install.html)
 
+You must also have pygame installed.
+- Ganerally speaking, you can use the command `python3 -m pip install -U pygame --user` to install pygame and use the command `python3 -m pygame.examples.aliens` to test that the installation was successful.
+- If the installation did not occur successfully, or if you would like more details, click [here](https://www.pygame.org/wiki/GettingStarted) 
+
+If you have ROS installed on your computer, OpenCV may not run properly. To resolve this, try uncommenting out the two sys.path lines toward the top of the *FinalProject_Model.py* file. Click [here](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv) for more details.
 
 ## How to Run Our Game
 **TODO**: List descriptions of each file, what they do, and what order to run them in. 
 The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *OpenCV_Pygame. py*, all located within the */src* folder of our GitHub repository. To run our game, simply download these files and run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.)!
+
+## Specifications of Systems We Tested On
+It is possible that for some unforseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
+- Machine: Dell Latitude 5401 with 30 fps webcam
+- OS: Ubuntu 16.04.6 LTS and 18.04.4 LTS (dual-booted, not a virtual machine)
+- Software: 
+  - Python 3.7.4
+  - Pygame 1.9.6
+  - OpenCV 4.2.0
+
 
 
 # The Game: Development and Results
