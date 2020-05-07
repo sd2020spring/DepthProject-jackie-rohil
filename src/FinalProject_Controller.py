@@ -19,14 +19,14 @@ class ImageController:
     """ Checks for user input from placing the blocks on the wall projection and
     creates a new block based on the properties of this block.
     """
+
     def __init__(self):
-        '''
-        Initializes OpenCV set up
-        '''
-        #start capturing video from webcam
+        """ Initializes OpenCV set up
+        """
+        # Start capturing video from webcam
         self.cap = cv2.VideoCapture(0)
-        #sets amount of frames stored in the internal buffer memory. Since the
-        #buffer is only storing 2 frames, we are always getting live feed.
+        # Sets amount of frames stored in the internal buffer memory. Since the
+        # buffer is only storing 2 frames, we are always getting live feed.
         self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
         # FPS = 1/X
@@ -36,34 +36,38 @@ class ImageController:
 
         # Start frame retrieval thread
         self.thread = Thread(target=self.update, args=())
-        #stops this thread if the other program stops running
+        # Stops this thread if the other program stops running
         self.thread.daemon = True
         self.thread.start()
 
-        #sets font
+        # Sets font
         self.font = cv2.FONT_HERSHEY_COMPLEX
 
     def update(self):
-        '''
-        auto updates frame every FPS
-        '''
+        """ This function is threaded. It updates self.frame automatically every
+        FPS
+        """
         while True:
             if self.cap.isOpened():
                 (self.status, self.frame) = self.cap.read()
             time.sleep(self.FPS)
 
     def show_frames(self):
+        """ Displays mask and webcam feed and waits the desired FPS to sync up video
+        """
         cv2.imshow('Frame', self.frame)
         cv2.imshow("Mask", self.mask)
         cv2.waitKey(self.FPS_MS)
 
     def create_trackbars(self):
-        '''
-        Creates trackbars to calibrate the background. Sets lower and upper HSV
-        ranges so we can create a mask later of a certain color. OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255). Values are currently set to green because I used a green post it note for testing
-        '''
+        """ Creates trackbars to calibrate the background. Sets lower and upper HSV
+        ranges so we can create a mask later of a certain color.
+        OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255).
+        Values are currently set to green. This needs to be calibrated before the
+        program can function properly.
+        """
         cv2.namedWindow("Trackbars")
-        # #initialize values for trackbars
+        # Initialize values for trackbars
         cv2.createTrackbar("L-H", "Trackbars", 12, 180, lambda x:x)
         cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
         cv2.createTrackbar("L-V", "Trackbars", 125, 255, lambda x:x)
@@ -72,12 +76,11 @@ class ImageController:
         cv2.createTrackbar("U-V", "Trackbars", 240, 255, lambda x:x)
 
     def create_hsv_mask(self):
-        '''
-        creates mask with HSV values
-        '''
-        #convert frame into HSV color space
+        """ Creates mask with HSV values from the trackbar. Adjusts in real time.
+        """
+        # Convert frame into HSV color space
         hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
-
+        # Retrieves real time trackbar values.
         l_h = cv2.getTrackbarPos("L-H", "Trackbars")
         l_s = cv2.getTrackbarPos("L-S", "Trackbars")
         l_v = cv2.getTrackbarPos("L-V", "Trackbars")
@@ -89,18 +92,28 @@ class ImageController:
         upper_color = np.array([u_h, u_s, u_v])
 
         mask = cv2.inRange(hsv, lower_color, upper_color)
-        #small square
+        # Small square to erode image by.
         kernel = np.ones((5, 5), np.uint8)
-        #erode makes the object we are masking smaller. Cleans up data by taking
-        #away random small dots
+        # Erode makes the object we are masking smaller. Cleans up data by taking
+        # away random small dots
         self.mask = cv2.erode(mask, kernel)
 
     def detect_rectangle(self):
+        """ Uses contours generated from the mask to detect whether a
+        rectangle exists in the frame.
+
+        Returns:
+            isRectangle: boolean representing whether there is a rectangle in frame
+            x: x position of the top right corner of the rectangle detected
+            y: y position of the top right corner of the rectangle detected
+        """
+        # There is no rectangle at the beginning
         isRectangle = False
 
+        # Checking OpenCV version because the findContours function is different.
         if int(cv2.__version__[0]) > 3:
             # Opencv 4.x.x
-            # looking for contours in mask. Outputs points in the image.
+            # Looking for contours in mask. Outputs points in the image.
             contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         else:
             # Opencv 3.x.x
@@ -108,18 +121,20 @@ class ImageController:
 
         for cnt in contours:
             area = cv2.contourArea(cnt)
-            #Aproximate sides. True refers to closed polygon
+            # Aproximate sides. True refers to closed polygon
             approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
-            #get xy positions to place the text
+            # Get xy positions to place the text
             x = approx.ravel()[0]
             y = approx.ravel()[1]
 
-            # only detect objects that are bigger to remove noise
+            # Only detect objects that are bigger to remove noise
             if area > 400:
-                # draws points found in contours
+                # Draws points found in contours
                 cv2.drawContours(self.frame, [approx], 0, (0, 0, 0), 5)
 
+                # If it detects 4 outlines, then a rectangle exists
                 if len(approx) == 4:
+                    # Displays text on frame confirming there is a rectangle
                     cv2.putText(self.frame, "Rectangle", (x, y), self.font, 1, (0, 0, 0))
                     isRectangle = True
 
@@ -129,7 +144,9 @@ class ImageController:
             return (False, 0, 0)
 
     def end_capture(self):
-
+        """
+        Ends current video capture
+        """
         self.cap.release()
         cv2.destroyAllWindows()
 
@@ -155,7 +172,7 @@ class MouseController:
     buttons.
 
     Attributes:
-        is_pressed: boolean indicating whether the left mouuse button is pressed
+        is_pressed: boolean indicating whether the left mouse button is pressed
         x_pos: the x-coordinate of the location on the screen where the mouse
                 was clicked
         y_pos: the y-coordinate of the location on the screen where the mouse
@@ -170,6 +187,7 @@ class MouseController:
 
 if __name__ == "__main__":
 
+    #testing code before moving into main model file
     camera = ImageController()
     camera.create_trackbars()
 

@@ -1,9 +1,33 @@
 """
-Ball Drop Game
+DISCLAIMER: This game captures video using your computer webcam. This video feed
+is near-live capture, and it is not saved locally or to the web. By playing this
+game, you consent to having video taken, which can involve yourself or other
+people.
+
+MVP: CV Ball Avoidance Game
+Original Idea: AR/CV Ball Drop Game
+
+
 @authors:
 Jackie Zeng
 Rohil Agarwal
 
+
+MVP:
+PLEASE NOTE: We already drafted our class structure for our original idea, and
+we hope to complete our original idea in the future. We have intentionally
+included non-functional classes and functions to allow for future implementation
+and show our thinking.
+
+We were unable to complete our original idea in the time frame allotted,
+so we pivoted to our MVP idea, which is a simple game that uses CV to detect a
+real-life rectangle, creates a virtual rectangle based on these properties, and
+has a vitual circle chase it. You lose if the circle is able to catch up to and
+collide with the rectangle, so you have to move your real-life rectangle
+quickly and with dexterity in order to not lose.
+
+
+Original Idea:
 This is the main file for our Ball Drop Game.
 There are two other files that this file depends on (view and controller).
 
@@ -14,6 +38,7 @@ obstacles, and these obstacles would be generated through pygame as a component
 that other features in the game could interact with.
 This idea is based off of Puppet.io, a project we were impressed by at
 MakeHarvard 2020.
+
 
 See https://sd2020spring.github.io/DepthProject-jackie-rohil/ for more extensive
 information about this project.
@@ -26,14 +51,15 @@ from threading import Thread
 from pygame.locals import *
 import sys
 import numpy as np
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+""" If you have ROS on your operating system, uncomment the following two
+sys.path lines
+"""
+#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # In order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # Append back in order to import rospy
 import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
-from FinalProject_Helper import *
-
 
 class GameEnvironment:
     """ Represents the full game.
@@ -47,13 +73,11 @@ class GameEnvironment:
             - play: will run and display the game
             - end: will display end menu
     """
-    def __init__(self, bkgd_color=(0,200,255), game_status="start"):
+    def __init__(self, bkgd_color=(109,104,117), game_status="start"):
         """ Starts the game at the start menu.
         """
         self.bkgd_color = bkgd_color
         self.game_status = "start"
-        #self.ball = ball
-        #self.block = block
 
     def gameplay(self):
         """ CONTROLS THE FLOW OF THE GAME.
@@ -87,10 +111,14 @@ class GameEnvironment:
         pass
 
     def createBall(self, screen):
+        """ Creates default ball object in default position.
+        """
         self.ball = Ball()
         self.ball.draw(screen)
 
     def moveBall(self):
+        """ Moves ball toward the square and recreates hitbox after moving.
+        """
         dx = 5
         dy = 5
         if self.block.x_center > self.ball.x_pos:
@@ -101,30 +129,33 @@ class GameEnvironment:
             self.ball.y_pos += dy
         elif self.block.y_center < self.ball.y_pos:
             self.ball.y_pos -= dy
-        #self.ball.hitbox = pygame.Rect(self.ball.x_pos, self.ball.y_pos, self.ball.width, self.ball.height)
+        self.ball.hitbox = pygame.Rect(self.ball.x_pos-self.ball.radius, self.ball.y_pos-self.ball.radius, self.ball.radius*2, self.ball.radius*2)
 
     def drawBall(self, screen):
         self.ball.draw(screen)
 
     def createBlock(self, screen, x, y, angle, width, height):
+        """ Creates Block with parameters passed from main method.
+        """
         self.block = Block(x, y, angle, width, height)
 
     def drawBlock(self, screen):
         self.block.draw(screen)
 
     def collisiontext(self, screen):
-        """ TODO: Move relevant code from main function to this function.
+        """ Displays 'YOU LOSE' when collision occurs.
         """
-        textfont = pygame.font.SysFont('Arial', 15)
-        textsurface = textfont.render('You Lose!', False, (0, 0, 0))
-        screen.blit(textsurface,(0,0))
+        textfont = pygame.font.SysFont('Arial', 50)
+        textsurface = textfont.render('YOU LOSE!', False, (0, 0, 0))
+        screen.blit(textsurface,(10,10))
 
     def erasecollisiontext(self, screen):
-        """ TODO: Move relevant code from main function to this function.
+        """ Removes 'YOU LOSE' when ball and block are no longer collided.
         """
         textfont = pygame.font.SysFont('Arial', 15)
         textsurface = textfont.render('', False, (0, 0, 0))
         screen.blit(textsurface,(0,0))
+
 
 class Ball:
     """ Represents the player as a ball.
@@ -149,13 +180,8 @@ class Ball:
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.radius = radius
-        self.color = (255,0,0)
-        self.hitbox = pygame.Rect(x_pos-radius,y_pos-radius,2*radius,2*radius)
-
-    def move(self):
-        """ Makes the ball move by changing the coordinates of its center point.
-        """
-        pass
+        self.color = (255, 180, 162)
+        self.hitbox = pygame.Rect(self.x_pos-self.radius,self.y_pos-self.radius,2*self.radius,2*self.radius)
 
     def draw(self, screen):
         """ Draws the ball based on its attributes.
@@ -198,6 +224,7 @@ class Feature:
         """
         pygame.draw.rect(screen, self.color, self.hitbox)
 
+
 class Block(Feature):
     """ Represents the blocks that direct the ball
 
@@ -220,8 +247,7 @@ class Block(Feature):
     def __init__(self, x_pos, y_pos, angle, width, height):
         """Creates a new Block object with the given attributes.
         """
-        super().__init__(x_pos, y_pos, angle, width, height, color=(0,255,0))
-
+        super().__init__(x_pos, y_pos, angle, width, height, color=(181, 131, 141))
 
     def draw(self,screen):
         """ Draws the Block based on its attributes.
@@ -248,7 +274,7 @@ class Target(Feature):
     def __init__(self, x_pos, y_pos, width, height):
         """Creates a new Target object with the given attributes.
         """
-        super().__init__(x_pos, y_pos, 0, width, height, (0,255,0))
+        super().__init__(x_pos, y_pos, 0, width, height, (109,104,117))
 
     def draw(self):
         """ Draws the Target based on its attributes.
@@ -257,83 +283,100 @@ class Target(Feature):
 
 
 if __name__ == "__main__":
+
+    # Creates ImageController object, which reads webcam data
     camera = ImageController()
+    # Creates trackbars for calibration
     camera.create_trackbars()
 
+    # Initialize game engine
     pygame.init()
-    # set screen to size of OpenCV video
-    screen = pygame.display.set_mode([640, 480])
 
+    # Scale window up by a factor of 2
+    scale = 2
+    # Set screen to scale times the size of OpenCV video
+    screen = pygame.display.set_mode([640*scale, 480*scale])
+
+    # Creates new GameEnvironment object, which contains instances of game
+    # features and methods that act on them
     game = GameEnvironment()
 
+    # Flag for running while loop below
     running = True
 
     # Fill the background with the color specified the game object
     screen.fill(game.bkgd_color)
+    # Display pygame window
     pygame.display.flip()
-    #capture video from webcam
 
-    #create ball object at initial position
+    # Create ball object at initial position
     game.createBall(screen)
 
+    # Flag so that draw does not occue if try block fails on first attempt
     shapes_were_created = False
-    last_hitboxList = []
+
     while running:
 
-        # Did the user click the window close button?
+        # Check if the user clicks the window close button?
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
         screen.fill(game.bkgd_color)
 
-        #contains hitboxes for ball and block
+        # Contains hitboxes for ball and block
         hitboxList = []
         collisionflag = False
         block_width = 100
+        # If AttributeError is thrown (because frame or mask was not captured
+        # during this particular loop), pass through, continue with the while
+        # loop, and repeat
         try:
             camera.create_hsv_mask()
-
-            #says if rectangle has been detected, gives x and y pos if it has
+            # Says if rectangle has been detected, gives x and y pos if it has
             isRectangle, x, y = camera.detect_rectangle()
-            #what should be executed if OpenCV detects a rectangle
+            # What should be executed if OpenCV detects a rectangle
             if (isRectangle):
-                #create Block object, add hitbox to hitboxList, and draw
-                game.createBlock(screen,x-block_width,y,0,block_width,block_width)
+                # Create Block object, add hitbox to hitboxList, and draw
+                game.createBlock(screen,(x-block_width)*scale,y*scale,0,block_width,block_width)
                 hitboxList.append(game.block.hitbox)
-                #change ball position, add hitbox to hitboxList, and draw
+                # Change ball position, add hitbox to hitboxList, and draw
                 game.moveBall()
                 hitboxList.append(game.ball.hitbox)
-            #check for collision between ball and block
+            # Check for collision between ball and block
             shapes_were_created = True
+            # If hitboxList has been populated, check for collision, if collision
+            # then display collision text and set flag to true
             if len(hitboxList) != 0:
-                print("hitboxlist not zero")
-                print(hitboxList)
-                print(type(hitboxList[0]))
                 if hitboxList[0].colliderect(hitboxList[1]):
                     game.collisiontext(screen)
-                    print("collision")
                     collisionflag = True
+            # Shows windows for Mask and Frame/webcam feed
             camera.show_frames()
         except AttributeError:
             pass
 
+        # If collision has not occurred, erase collisiontext
         if collisionflag == False:
             game.erasecollisiontext(screen)
 
+        # Draw shapes
         game.drawBall(screen)
         if shapes_were_created == True:
-            print("shapes were created")
             game.drawBlock(screen)
 
-        #Flip the display
+        # Displays the drawings to the screen
         pygame.display.flip()
+        # Clear canvas
         screen.fill((255, 255, 255))
 
+        # Ends capture and breaks out of while loop if escape is pressed
         key = cv2.waitKey(1)
         if key == 27:
+            camera.end_capture()
             break
 
+    # Check if x button is hit to end video capture
     camera.end_capture()
-    #check if x button is pushed to close window
+    # Check if x button is pushed to close window
     pygame.quit()
