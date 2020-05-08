@@ -136,7 +136,7 @@ approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
 
 The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smoothens any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle has been detected, and the corresponding code is exectued.
 
-Though we were able to successfully detect a rectangle, our game had a lot of lag, therefore, we decided to add the two lines of code seen below:
+Though we were able to successfully detect a rectangle, our game had a lot of lag. Therefore, we decided to add the two lines of code seen below:
 
 ```python
 self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
