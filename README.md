@@ -101,7 +101,7 @@ It is possible that for some unforseen reasons, our game will not run successful
 
 
 
-# The Game: Context, Development, Results
+# The Game: Context and Development
 
 ## Ethical Considerations
 Even in something as seemingly simple as our game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to think very intentionally about where things can go wrong, and we must do our best to protect against these potential issues. We must also have humility and be willing to accept that sometimes, even with our best efforts, things can still go wrong. When issues are exposed unexpectedly after deployment, we must have processes in place that allow for rapid mitigation.
