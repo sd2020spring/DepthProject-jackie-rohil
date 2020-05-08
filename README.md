@@ -1,13 +1,13 @@
 # Final Project, Software Design Spring 2020, Olin College of Engineering
 # What is this?
-Current Project Description:
+### Current Project Description:  
 We were unable to complete our original idea in the time frame allotted, so we pivoted to a different idea, which is a game that uses CV to detect a real-life rectangle, creates a virtual rectangle based on these properties, and has a vitual circle chase it. You lose if the circle is able to catch up to and collide with the rectangle, so you have to move your real-life rectangle quickly and with dexterity in order to not lose.
 
 This game can be played in either a computer-only version or in an AR version (with a projector). Details on how to set up the game for each of the different versions is discussed later on. 
 
 ***In the near future, we hope to complete our original idea. We have described this idea below so that you can see where we are heading.***
 
-Original Idea:
+### Original Idea:  
 Our project is a game that combines CV and AR into the gameplay. The human player is able to add obstacles to the game environment by placing them in front of a separate game display screen, OpenCV detects the obstacles, and these obstacles are generated through pygame as a component that other features in the game can interact with. This idea is based off of [Puppet.io](https://devpost.com/software/puppet-io), a project we were impressed by at MakeHarvard 2020.
 
 ![Game Diagram](https://i.imgur.com/4PQ7gKF.jpg)
@@ -195,17 +195,16 @@ OpenCV - Detect and process obstacles
 Pygame - Game engine
 
 ### Acknowledgments
-**TODO**: Acknowledge anyone whose code was used, inspiration, etc.
 
 We'd like to thank the [Puppet.io](https://devpost.com/software/puppet-io) team at MakeHarvard 2020 for providing us with inspiration for this project.
 
 There are some resources that helped along the way, we recommend checking them out:
 
-https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/
-https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-sync 
-https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame
-https://www.pygame.org/docs/ref/rect.html
-https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/ 
+<https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>
+<https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-sync> 
+<https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame>
+<https://www.pygame.org/docs/ref/rect.html>
+<https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>
 
 ### Authors
 Jackie Zeng  
