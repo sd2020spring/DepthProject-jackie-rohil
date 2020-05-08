@@ -1,8 +1,8 @@
 import pygame
 import sys
-# sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-# sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
 # OpenCV Setup
@@ -18,10 +18,10 @@ print(width, height)
 # OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255)
 cv2.namedWindow("Trackbars")
 #initialize values for trackbars
-cv2.createTrackbar("L-H", "Trackbars", 21, 180, lambda x:x)
-cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
-cv2.createTrackbar("L-V", "Trackbars", 73, 255, lambda x:x)
-cv2.createTrackbar("U-H", "Trackbars", 80, 180, lambda x:x)
+cv2.createTrackbar("L-H", "Trackbars", 0, 180, lambda x:x)
+cv2.createTrackbar("L-S", "Trackbars", 25, 255, lambda x:x)
+cv2.createTrackbar("L-V", "Trackbars", 0, 255, lambda x:x)
+cv2.createTrackbar("U-H", "Trackbars", 180, 180, lambda x:x)
 cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
 cv2.createTrackbar("U-V", "Trackbars", 255, 255, lambda x:x)
 

@@ -100,11 +100,11 @@ class ImageController:
         cv2.waitKey(self.FPS_MS)
 
     def create_trackbars(self):
-        """ Creates trackbars to calibrate the background. Sets lower and upper HSV
-        ranges so we can create a mask later of a certain color.
+        """ Creates trackbars to calibrate the background. Sets lower and upper
+        HSV ranges so we can create a mask later of a certain color.
         OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255).
-        Values are currently set to green. This needs to be calibrated before the
-        program can function properly.
+        Values are currently set to green. These values needs to be calibrated
+        and changed before the program can function properly.
         """
         cv2.namedWindow("Trackbars")
         # Initialize values for trackbars
