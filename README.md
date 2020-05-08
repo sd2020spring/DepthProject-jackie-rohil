@@ -42,7 +42,7 @@ The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalP
 
 Before calibrating or running the game, make sure that your webcam is not being used by any other application.
 
-General Calibration:
+### General Calibration:
 - Run *Calibration.py*. Four windows should appear. A pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
 - View the taskbar, mask, and frame windows simulataneously.
 - Preferably, perform the following calibration steps in front of a uniform background and a well lit area. 
@@ -135,7 +135,7 @@ contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE
 approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
 ```
 
-The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smoothens any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle has been detected, and the corresponding code is exectued.
+The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smooths any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle has been detected, and the corresponding code is executed. To learn more about real time shape detection, click [here](https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3)
 
 Though we were able to successfully detect a rectangle, our game had a lot of lag. Therefore, we decided to add the two lines of code seen below:
 
