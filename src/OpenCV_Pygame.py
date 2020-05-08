@@ -1,17 +1,11 @@
 import pygame
-from pygame.locals import *
 import sys
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+# sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+# sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
-
-def nothing(x):
-    # any operation
-    pass
-
-#OpenCV Setup
+# OpenCV Setup
 
 #capture video from webcam
 cap = cv2.VideoCapture(0)
@@ -24,12 +18,12 @@ print(width, height)
 # OpenCV HSV ranges: Hue(0-180), Saturation(0-255), Value(0-255)
 cv2.namedWindow("Trackbars")
 #initialize values for trackbars
-cv2.createTrackbar("L-H", "Trackbars", 27, 180, nothing)
-cv2.createTrackbar("L-S", "Trackbars", 10, 255, nothing)
-cv2.createTrackbar("L-V", "Trackbars", 134, 255, nothing)
-cv2.createTrackbar("U-H", "Trackbars", 91, 180, nothing)
-cv2.createTrackbar("U-S", "Trackbars", 255, 255, nothing)
-cv2.createTrackbar("U-V", "Trackbars", 167, 255, nothing)
+cv2.createTrackbar("L-H", "Trackbars", 21, 180, lambda x:x)
+cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
+cv2.createTrackbar("L-V", "Trackbars", 73, 255, lambda x:x)
+cv2.createTrackbar("U-H", "Trackbars", 80, 180, lambda x:x)
+cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
+cv2.createTrackbar("U-V", "Trackbars", 255, 255, lambda x:x)
 
 font = cv2.FONT_HERSHEY_COMPLEX
 
