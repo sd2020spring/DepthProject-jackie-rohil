@@ -1,3 +1,4 @@
+# Final Project, Software Design Spring 2020, Olin College of Engineering
 # What is this?
 Current Project Description:
 We were unable to complete our original idea in the time frame allotted, so we pivoted to a different idea, which is a game that uses CV to detect a real-life rectangle, creates a virtual rectangle based on these properties, and has a vitual circle chase it. You lose if the circle is able to catch up to and collide with the rectangle, so you have to move your real-life rectangle quickly and with dexterity in order to not lose.
@@ -73,8 +74,61 @@ There are some areas of concern that we were able to identify for this project. 
 Another concern with computer games is the negative impact they can have on people's health. However, we think that our game is better than others in this respect, especially since it involves problem-solving, forces users to interact with their physical environments, and requires them to move around more than most other games do. When we eventually create the full game based on our original idea, we think one action we can take to mitigate the potential negative consequences is to limit the number of levels or force the game to end after a certain number of rounds, after which the user would need to close the game windows and restart the program in order to play again. 
 
 ## Development
-**TODO**: Add details about the program architecture. Also add program snippets and descriptions of what they do (image filtration, contour capture).
+To start off our development process, we started with our documentation and class structure from Micro-Project 4 and altered it based on our idea for the final project. 
 
+### Computer Vision:
+After we used starter OpenCV code from the Image Processing toolbox assignment to capture webcam feed, we set about trying to determine how to best optimize our video processing to focus on what we needed for the purposes of the game and filter out the rest. We decided to use manual thresholding with trackbars to allow the user to best calibrate the thresholding to their ambient environment and lighting conditions. Calibration can take some time, but based on our testing, the results are worth the effort. Here is the code for thresholding:
+
+```python
+hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
+lower_color = np.array([l_h, l_s, l_v])
+upper_color = np.array([u_h, u_s, u_v])
+mask = cv2.inRange(hsv, lower_color, upper_color)
+```
+
+The first line converts the RGB color scheme captured by the webcam to HSV, which is better for object detection. The second and third lines create upper and lower bounds for the HSV values, as determined by the trackbars. The final line filters out values outside of these bounds. 
+
+After filtering, we were ready to detect a rectangle. Here is the code we used to do so:
+
+```python
+contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
+```
+
+The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smoothens any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle had been detected, and the code for what happened in response to a rectangle being detected was executed.
+
+### Game Engine:
+Controlling the game required objects to be created, displayed on the screen, moved on the screen, and allowed to interact with each other. The following method controls the behavior which causes the ball to chase the rectangle.
+
+```python
+def moveBall(self):
+        """ Moves ball toward the square and recreates hitbox after moving.
+        """
+        dx = 5
+        dy = 5
+        if self.block.x_center > self.ball.x_pos:
+            self.ball.x_pos += dx
+        elif self.block.x_center < self.ball.x_pos:
+            self.ball.x_pos -= dx
+        if self.block.y_center > self.ball.y_pos:
+            self.ball.y_pos += dy
+        elif self.block.y_center < self.ball.y_pos:
+            self.ball.y_pos -= dy
+        self.ball.hitbox = pygame.Rect(self.ball.x_pos-self.ball.radius, self.ball.y_pos-self.ball.radius, self.ball.radius*2, self.ball.radius*2)
+```
+
+Depending on where the ball is located in relation to the block, the ball’s position is updated. After the position is updated, the ball’s hitbox is updated to make sure that collisions can still be detected.
+
+Speaking of collision detection, the following line of code determines whether a collision has occurred.
+
+```python
+hitboxList[0].colliderect(hitboxList[1])
+```
+
+In pygame, a hitbox is a rectangle that defines a game feature’s boundaries. Using hitboxes simplifies collision detection. hitboxList contains two hitboxes: one for the circle and one for the rectangle. The method above checks to see if the two hitboxes are intersecting/colliding. 
+
+
+## Setup and Overall System
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
 ![Flow Diagram](https://i.imgur.com/MzxoOLf.jpg)
 
