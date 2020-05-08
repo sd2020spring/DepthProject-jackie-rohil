@@ -55,9 +55,9 @@ import numpy as np
 """ If you have ROS on your operating system, uncomment the following two
 sys.path lines
 """
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # In order to import cv2 under python3
+# sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # In order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # Append back in order to import rospy
+# sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # Append back in order to import rospy
 import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *

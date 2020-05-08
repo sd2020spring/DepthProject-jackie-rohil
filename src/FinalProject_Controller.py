@@ -9,9 +9,9 @@ import pygame
 from threading import Thread
 import time
 import sys
-sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+# sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+# sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
 
