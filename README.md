@@ -83,27 +83,6 @@ Another concern with computer games is the negative impact they can have on peop
 ## Development
 To start off our development process, we started with our documentation and class structure from Micro-Project 4 and altered it based on our idea for the final project. 
 
-### Computer Vision:
-After we used starter OpenCV code from the Image Processing toolbox assignment to capture webcam feed, we set about trying to determine how to best optimize our video processing to focus on what we needed for the purposes of the game and filter out the rest. We decided to use manual thresholding with trackbars to allow the user to best calibrate the thresholding to their ambient environment and lighting conditions. Calibration can take some time, but based on our testing, the results are worth the effort. We also believe that requiring the user to manually calibrate the thresholding presents a unique learning opportunity. It allows the user to go “behind the scenes” and see what the computer sees, helping them develop an intuitive, high-level understanding of fundamental computer vision concepts like thresholding and contour detection. The best part is that they need not have prior computer science knowledge in order to understand these concepts. Here is the code for thresholding:
-
-```python
-hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
-lower_color = np.array([l_h, l_s, l_v])
-upper_color = np.array([u_h, u_s, u_v])
-mask = cv2.inRange(hsv, lower_color, upper_color)
-```
-
-The first line converts the RGB color scheme captured by the webcam to HSV, which is better for object detection. The second and third lines create upper and lower bounds for the HSV values, as determined by the trackbars. The final line filters out values outside of these bounds. 
-
-After filtering, we were ready to detect a rectangle. Here is the code we used to do so:
-
-```python
-contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
-```
-
-The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smoothens any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle had been detected, and the code for what happened in response to a rectangle being detected was executed.
-
 ### Game Engine:
 Controlling the game required objects to be created, displayed on the screen, moved on the screen, and allowed to interact with each other. The following method controls the behavior which causes the ball to chase the rectangle.
 
@@ -133,6 +112,40 @@ hitboxList[0].colliderect(hitboxList[1])
 ```
 
 In pygame, a hitbox is a rectangle that defines a game feature’s boundaries. Using hitboxes simplifies collision detection. hitboxList contains two hitboxes: one for the circle and one for the rectangle. The method above checks to see if the two hitboxes are intersecting/colliding. 
+
+### Computer Vision:
+After we used starter OpenCV code from the Image Processing toolbox assignment to capture webcam feed, we set about trying to determine how to best optimize our video processing to focus on what we needed for the purposes of the game and filter out the rest. We decided to use manual thresholding with trackbars to allow the user to best calibrate the thresholding to their ambient environment and lighting conditions. Calibration can take some time, but based on our testing, the results are worth the effort. We also believe that requiring the user to manually calibrate the thresholding presents a unique learning opportunity. It allows the user to go “behind the scenes” and see what the computer sees, helping them develop an intuitive, high-level understanding of fundamental computer vision concepts like thresholding and contour detection. The best part is that they need not have prior computer science knowledge in order to understand these concepts. Here is the code for thresholding:
+
+```python
+hsv = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
+lower_color = np.array([l_h, l_s, l_v])
+upper_color = np.array([u_h, u_s, u_v])
+mask = cv2.inRange(hsv, lower_color, upper_color)
+```
+
+The first line converts the RGB color scheme captured by the webcam to HSV, which is better for object detection. The second and third lines create upper and lower bounds for the HSV values, as determined by the trackbars. The final line filters out values outside of these bounds. 
+
+After filtering, we were ready to detect a rectangle. Here is the code we used to do so:
+
+```python
+contours, _ = cv2.findContours(self.mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+```
+```python
+approx = cv2.approxPolyDP(cnt, 0.02*cv2.arcLength(cnt, True), True)
+```
+
+The first line finds contours in mask, which are lines that form borders between parts of the image that have been filtered out and parts of the image that have passed through the filter. The second line cleans/smoothens any group of contours that form a closed polygon and gets the number of contours in this polygon. If this number is four, a rectangle has been detected, and the corresponding code is exectued.
+
+Though we were able to successfully detect a rectangle, our game had a lot of lag, therefore, we decided to add the two lines of code seen below:
+
+```python
+self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
+```
+```python
+self.thread = Thread(target=self.update, args=())
+```
+The first line sets a buffer size of 2, which is quite small. This means that only two frames are stored and the rest are dropped. This would not be ideal for a video streaming application, because it would mean that frames would be dropped (parts of the video would be skipped), but for an application like ours that requires live video, it is acceptable if some frames are dropped if that reduces the time it takes to build up the buffer. The second line sets up multithreading, which allows multiple processes to run simultaneously. We placed our update function, which read each frame, on a separate thread from the rest of the constantly running while loop, which, among other things, created the HSV mask, displayed the mask and frame windows, and attempted to detect a rectangle. This sped up our program because it allowed methods to start running before other methods finished running. 
+
 
 
 ## Setup and Overall System
