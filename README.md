@@ -51,7 +51,18 @@ Before calibrating or running the game, make sure that your webcam is not being 
 - Adjust the trackbars so that, in the mask window, the rectangle appears white while everything else appears black. Try to get rid of any white pixels in the parts of the mask that should be black or any black pixels within the rectangle, even if they only flash on the screen temporarily, as these can reduce the accuracy of the rectangle detection algorithm. Ideally, in the frame window, the rectangle should constantly be outlined and display the text "Rectangle" next to it. We recommend taking your time to get the calibration right because this can have a huge impact on how well the game works.
 - Once you find the desired calibration values, record them.
 - To exit the calibration program, click on either Frame or Mask and press the Esc key. 
-- Go into *FinalProject_Controller.py*, navigate to lines 111-116 in the *create_trackbars* function, and edit the first numerical value in each line accordingly. This initiates the trackbars with the correct values each time so there is no need to recalibrate everytime you run the program. 
+- Go into *FinalProject_Controller.py*, navigate to lines 111-116 in the *create_trackbars* function, and edit the first numerical value in each line accordingly. The code block looks like this:
+
+```python
+cv2.createTrackbar("L-H", "Trackbars", 0, 180, lambda x:x)
+cv2.createTrackbar("L-S", "Trackbars", 25, 255, lambda x:x)
+cv2.createTrackbar("L-V", "Trackbars", 0, 255, lambda x:x)
+cv2.createTrackbar("U-H", "Trackbars", 180, 180, lambda x:x)
+cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
+cv2.createTrackbar("U-V", "Trackbars", 255, 255, lambda x:x)
+```
+
+This initiates the trackbars with the correct values each time so there is no need to recalibrate everytime you run the program. 
 
 ### Projector Calibration:
 If you would like to play this game as an AR game, please follow the calibration guidelines below.
