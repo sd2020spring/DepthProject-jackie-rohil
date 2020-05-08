@@ -35,7 +35,7 @@ You must also have pygame installed.
 - Generally speaking, you can use the command `python3 -m pip install -U pygame --user` to install pygame and use the command `python3 -m pygame.examples.aliens` to test that the installation was successful.
 - If the installation did not occur successfully, or if you would like more details, click [here](https://www.pygame.org/wiki/GettingStarted) 
 
-If you have ROS installed on your computer, OpenCV may not run properly. To resolve this, try uncommenting out the two sys.path lines toward the top of the *FinalProject_Model.py* file. Click [here](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv) for more details.
+If you have ROS installed on your computer, OpenCV may not run properly. To resolve this, try uncommenting out the two *sys.path* lines toward the top of the *FinalProject_Model.py* file. Click [here](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv) for more details.
 
 ## How to Run Our Game
 The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *Calibration.py*, all located within the */src* folder of our GitHub repository. To run our game, first download these files. 
@@ -43,8 +43,8 @@ The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalP
 Before calibrating or running the game, make sure that your webcam is not being used by any other application.
 
 ### General Calibration:
-- Run *Calibration.py*. Four windows should appear. A pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV Mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
-- View the taskbar, mask, and frame windows simulataneously.
+- Run *Calibration.py*. Four windows should appear. A Pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV Mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
+- View the taskbar, mask, and frame windows simultaneously.
 - Preferably, perform the following calibration steps in front of a uniform background and a well lit area. 
 - Hold up or place a rectangle within the frame of the webcam. Make sure the rectangle is a distinct color from the background and anything else that may be in the frame. We recommend using Post-It notes for their ability to stick to any uniform movable surface, such as a piece of paper.
 - Take a look at the Trackbars window, you'll notice 6 adjustable trackbars labeled L-H, L-S, L-V, U-H, U-S, and U-V. The H,S,V corresponds to hue, saturation, and value while the L,H indicates whether the trackbar is a lower or higher limit. Ranges of HSV in OpenCV is slightly different than the conventional range and this will be helpful to keep in mind as you calibrate. Hue in OpenCV ranges from 0-180&deg; while it is conventionally from 0-360&deg;. Saturation and Value in Open CV range from 0-255 while conventionally they are from 0-100. To learn more about HSV, click [here](https://www.lifewire.com/what-is-hsv-in-design-1078068). To convert from RGB to HSV, click [here](https://www.rapidtables.com/convert/color/rgb-to-hsv.html).
@@ -80,7 +80,7 @@ camera.resizeFrame = True
 Once everything is calibrated, simply run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.) to play our game!
 
 ### End Game
-To end game, exit the Pygame window or click on either the Frame or Mask window and press the Esc key. 
+To end the game, exit the Pygame window or click on either the Frame or Mask window and press the Esc key. 
 
 ## Specifications of Systems We Tested On
 It is possible that for some unforseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
@@ -179,13 +179,12 @@ Here is an image of our setup for the AR version of the game.
 ![Projector Setup](https://i.imgur.com/E0Uyb8G.jpg)
 
 ## See It in Action!
-Here is a video of the computer-only version of our game in action!  
 <iframe width="560" height="315" src="https://www.youtube.com/embed/oeZy3j_s490" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+Here is a video of the computer-only version of our game in action!  
 
 
-And here is a video of the AR/projector version of our game in action!  
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jQGUcK0w3Lw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+And here is a video of the AR/projector version of our game in action!  
 
 
 # Additional Information
