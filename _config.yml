@@ -1,3 +1,3 @@
-theme: jekyll-theme-merlot
-title: Augmented Reality<br/> Ball Drop Game
-description: Our game takes the simple concept of a ball drop game and takes it to the next level. We allows users to place boxes onto a projection of the game, and then we use OpenCV to capture these and incorporate them into the gameplay.
+theme: jekyll-theme-minimal
+title: Computer Vision<br/> Ball Avoidance Game
+description: Our game takes the simple concept of a tag game to the next level. Users move a real-life rectangle around within the frame of their webcam to move around a virtual representation of this rectangle (created using CV). The user must move around their real-life rectangle so that the virtual rectangle avoids getting tagged by a virtual ball.
