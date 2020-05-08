@@ -54,11 +54,17 @@ Before calibrating or running the game, make sure that your webcam is not being 
 - Go into *FinalProject_Controller.py*, navigate to lines 111-116 in the *create_trackbars* function, and edit the first numerical value in each line accordingly. This initiates the trackbars with the correct values each time so there is no need to recalibrate everytime you run the program. 
 
 ### Projector Calibration:
-If you would like to play this game as an AR game, please follow the additional calibration guidelines below.
-- Connect your computer so there projector.
+If you would like to play this game as an AR game, please follow the calibration guidelines below.
+- Connect your computer so the projector is a second display.
 - Setup the projector so that it is pointed towards a blank wall.
 - Setup the computer so that the webcam is capturing the whole screen the projector is projecting onto the wall.
+- If you want to change the aspect ratio of the gaming window to fit the projector, which is typically 16x9, open *FinalProject_Model.py* and uncomment line 298. It should look like this:
 
+```python
+camera.resizeFrame = True
+```
+- Complete general calibration steps.
+### Run Game
 Once everything is calibrated, simply run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.) to play our game!
 
 ## Specifications of Systems We Tested On
@@ -180,7 +186,7 @@ We'd like to thank the [Puppet.io](https://devpost.com/software/puppet-io) team 
 
 There are some resources that helped along the way, we recommend checking them out
 
-[](https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/)
+https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/
 
 ### Authors
 Jackie Zeng  
