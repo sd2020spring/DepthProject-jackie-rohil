@@ -37,15 +37,22 @@ You must also have pygame installed.
 If you have ROS installed on your computer, OpenCV may not run properly. To resolve this, try uncommenting out the two sys.path lines toward the top of the *FinalProject_Model.py* file. Click [here](https://stackoverflow.com/questions/43019951/after-install-ros-kinetic-cannot-import-opencv) for more details.
 
 ## How to Run Our Game
-The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *OpenCV_Pygame. py*, all located within the */src* folder of our GitHub repository. To run our game, first download these files. 
+The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalProject_Controller.py*, and *Calibration.py*, all located within the */src* folder of our GitHub repository. To run our game, first download these files. 
 
 Before calibrating or running the game, make sure that your webcam is not being used by any other application.
 
 General Calibration:
-- Run *OpenCV_Pygame. py*. Four windows should appear. 
+- Run *Calibration.py*. Four windows should appear. A pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
 - View the taskbar, mask, and frame windows simulataneously.
-- Hold a rectangle up within the frame of the webcam.
-- Adjust the trackbars so that, in the mask window, the rectangle appears white while everything else appears black. Try to get rid of any white pixels in the parts of the mask that should be black or any black pixels within the rectangle, even if they only flash on the screen temporarily, as these can reduce the accuracy of the rectangle detection algorithm. Ideally, in the frame window, the rectangle should constantly be outlined and display the word rectangle next to it. We recommend taking your time to get the calibration right because this can have a huge impact on how well the game works.
+- Preferably, perform the following calibration steps in front of a uniform background and a well lit area. 
+- Hold up or place a rectangle within the frame of the webcam. Make sure the rectangle is a distinct color from the background and anything else that may be in the frame.
+- Take a look at the Trackbars window, you'll notice 6 adjustable trackbars labeled L-H, L-S, L-V, U-H, U-S, and U-V. The H,S,V corresponds to hue, saturation, and value while the L,H indicates whether the trackbar is a lower or higher limit. Ranges of HSV in OpenCV is slightly different than the conventional range and this will be helpful to keep in mind as you calibrate. Hue in OpenCV ranges from 0-180 &deg; while it is conventionally from 0-360 &deg;. Saturation and Value in Open CV range from 0-255 while conventionally they are from 0-100. To learn more about HSV, click [here] (https://www.lifewire.com/what-is-hsv-in-design-1078068). To convert from RGB to HSV, click [here] (https://www.rapidtables.com/convert/color/rgb-to-hsv.html)
+- Adjust the trackbars so that, in the mask window, the rectangle appears white while everything else appears black. Try to get rid of any white pixels in the parts of the mask that should be black or any black pixels within the rectangle, even if they only flash on the screen temporarily, as these can reduce the accuracy of the rectangle detection algorithm. Ideally, in the frame window, the rectangle should constantly be outlined and display the text "Rectangle" next to it. We recommend taking your time to get the calibration right because this can have a huge impact on how well the game works.
+- Once you find the desired calibration values, record them.
+- 
+
+
+To exit the calibration program, click on either Frame or Mask and press the Esc key. 
 
 Projector Calibration:
 If you would like to play this game as an AR game, please follow the additional calibration guidelines below.
