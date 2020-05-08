@@ -69,6 +69,9 @@ It is possible that for some unforseen reasons, our game will not run successful
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
 ![Flow Diagram](https://i.imgur.com/MzxoOLf.jpg)
 
+Here is an image of our setup for the AR version of the game.
+![Projector Setup](https://i.imgur.com/E0Uyb8G.jpg)
+
 ## See It in Action!
 **TODO**: Embed Youtube video of the game being played.
 
@@ -82,7 +85,7 @@ Here is a flow diagram of our setup that gives an overview of the different step
 ## Ethical Considerations
 Even in something as seemingly simple as our game, there can be unintended, negative consequences that arise when the game is deployed in real-world scenarios. Therefore, as developers, we have a responsibility to think very intentionally about where things can go wrong, and we must do our best to protect against these potential issues. We must also have humility and be willing to accept that sometimes, even with our best efforts, things can still go wrong. When issues are exposed unexpectedly after deployment, we must have processes in place that allow for rapid mitigation.
 
-There are some areas of concern that we were able to identify for this project. One concern has to do with video capture. Whenever videos are taken, especially when people are captured in the videos, privacy concerns become relevant. For our game to work, it must take video capture of the projection of the game, and a human player must place blocks on this projection. To mitigate any concerns regarding this, the video capture will strictly be live. No components of the video will be saved, either locally or on the web. We will also include a notice informing users that their video will be recorded but we will not save it or do anything with it other than use it for the gameplay. This notice is located toward the top of the website/readme under "Important Disclosure" and is also included in the header comment in the main *FinalProject_Model.py* file.
+There are some areas of concern that we were able to identify for this project. One concern has to do with video capture. Whenever videos are taken, especially when people are captured in the videos, privacy concerns become relevant. For our game to work, it must take video capture, and people will likely be recorded within the video capture. To mitigate any concerns regarding this, the video capture will strictly be live. No components of the video will be saved, either locally or on the web. We will also include a notice informing users that their video will be recorded but we will not save it or do anything with it other than use it for the gameplay. This notice is located toward the top of the website/readme under "Important Disclosure" and is also included in the header comment in the main *FinalProject_Model.py* file.
 
 Another concern with computer games is the negative impact they can have on people's health. However, we think that our game is better than others in this respect, especially since it involves problem-solving, forces users to interact with their physical environments, and requires them to move around more than most other games do. When we eventually create the full game based on our original idea, we think one action we can take to mitigate the potential negative consequences is to limit the number of levels or force the game to end after a certain number of rounds, after which the user would need to close the game windows and restart the program in order to play again. 
 
