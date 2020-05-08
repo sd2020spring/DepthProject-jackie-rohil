@@ -70,10 +70,17 @@ Here is a flow diagram of our setup that gives an overview of the different step
 ![Flow Diagram](https://i.imgur.com/MzxoOLf.jpg)
 
 Here is an image of our setup for the AR version of the game.
+
 ![Projector Setup](https://i.imgur.com/E0Uyb8G.jpg)
 
 ## See It in Action!
-**TODO**: Embed Youtube video of the game being played.
+Here is a video of the computer-only version of our game in action!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oeZy3j_s490" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+And here is a video of the AR/projector version of our game in action!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jQGUcK0w3Lw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
