@@ -43,7 +43,7 @@ The necessary files are *FinalProject_Model.py*, *FinalProject_View.py*, *FinalP
 Before calibrating or running the game, make sure that your webcam is not being used by any other application.
 
 ### General Calibration:
-- Run *Calibration.py*. Four windows should appear. A pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
+- Run *Calibration.py*. Four windows should appear. A pygame window, an OpenCV Frame window that should display the live video capture, an OpenCV Mask window in black and white, and a Trackbar window that allows you to calibrate the mask.
 - View the taskbar, mask, and frame windows simulataneously.
 - Preferably, perform the following calibration steps in front of a uniform background and a well lit area. 
 - Hold up or place a rectangle within the frame of the webcam. Make sure the rectangle is a distinct color from the background and anything else that may be in the frame. We recommend using Post-It notes for their ability to stick to any uniform movable surface, such as a piece of paper.
@@ -64,8 +64,12 @@ If you would like to play this game as an AR game, please follow the calibration
 camera.resizeFrame = True
 ```
 - Complete general calibration steps.
-### Run Game
+
+### Play Game
 Once everything is calibrated, simply run *FinalProject_Model.py* using your preferred method (with an IDE, from the terminal, etc.) to play our game!
+
+### End Game
+To end game, exit the Pygame window or click on either the Frame or Mask window and press the Esc key. 
 
 ## Specifications of Systems We Tested On
 It is possible that for some unforseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
