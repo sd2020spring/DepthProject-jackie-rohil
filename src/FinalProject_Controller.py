@@ -9,9 +9,9 @@ import pygame
 from threading import Thread
 import time
 import sys
-#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # in order to import cv2 under python3
 import cv2
-#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # append back in order to import rospy
 import numpy as np
 
 
@@ -43,13 +43,53 @@ class ImageController:
         # Sets font
         self.font = cv2.FONT_HERSHEY_COMPLEX
 
+        # Set size of the camera,
+        self.width  = int(self.cap.get(3))
+        self.height = int(self.cap.get(4))
+
+        # Sets boolean determining whether to resize frame
+        self.resizeFrame = False
+    def get_resized_frame_size(self, new_ratio_width, new_ratio_height):
+        """ Gets the size of the resized frame given the desired aspect ratio
+        to resize the original frame by.
+
+        Parameters:
+            new_ratio_width: Ex. for an aspect ratio of 16x9, the user inputs 16
+            new_ratio_height: Ex. for an aspect ratio of 16x9, the user inputs 9
+
+        Returns:
+            new_dim: new dimensions of frame after resize
+        """
+        unit_len = self.width/new_ratio_width
+        new_dim = (int(unit_len*new_ratio_width), int(unit_len*new_ratio_height))
+        return new_dim
+
+    def resize_frame(self, frame, new_ratio_width, new_ratio_height):
+        """ Resize frame inputed to a new aspect ratio.
+
+        Parameters:
+            new_ratio_width: Ex. for an aspect ratio of 16x9, the user inputs 16
+            new_ratio_height: Ex. for an aspect ratio of 16x9, the user inputs 9
+
+        Returns:
+            new_frame: adjusted frame after resizing
+
+        """
+        new_dim = self.get_resized_frame_size(new_ratio_width,new_ratio_height)
+        new_frame = cv2.resize(frame, new_dim)
+        return new_frame
+
     def update(self):
         """ This function is threaded. It updates self.frame automatically every
         FPS
         """
         while True:
             if self.cap.isOpened():
-                (self.status, self.frame) = self.cap.read()
+                (self.status, temp_frame) = self.cap.read()
+                if self.resizeFrame:
+                    self.frame = self.resize_frame(temp_frame, 16, 9)
+                else:
+                    self.frame = temp_frame
             time.sleep(self.FPS)
 
     def show_frames(self):
@@ -68,12 +108,12 @@ class ImageController:
         """
         cv2.namedWindow("Trackbars")
         # Initialize values for trackbars
-        cv2.createTrackbar("L-H", "Trackbars", 12, 180, lambda x:x)
+        cv2.createTrackbar("L-H", "Trackbars", 21, 180, lambda x:x)
         cv2.createTrackbar("L-S", "Trackbars", 61, 255, lambda x:x)
-        cv2.createTrackbar("L-V", "Trackbars", 125, 255, lambda x:x)
-        cv2.createTrackbar("U-H", "Trackbars", 81, 180, lambda x:x)
-        cv2.createTrackbar("U-S", "Trackbars", 251, 255, lambda x:x)
-        cv2.createTrackbar("U-V", "Trackbars", 240, 255, lambda x:x)
+        cv2.createTrackbar("L-V", "Trackbars", 73, 255, lambda x:x)
+        cv2.createTrackbar("U-H", "Trackbars", 80, 180, lambda x:x)
+        cv2.createTrackbar("U-S", "Trackbars", 255, 255, lambda x:x)
+        cv2.createTrackbar("U-V", "Trackbars", 255, 255, lambda x:x)
 
     def create_hsv_mask(self):
         """ Creates mask with HSV values from the trackbar. Adjusts in real time.
@@ -136,6 +176,7 @@ class ImageController:
                 if len(approx) == 4:
                     # Displays text on frame confirming there is a rectangle
                     cv2.putText(self.frame, "Rectangle", (x, y), self.font, 1, (0, 0, 0))
+
                     isRectangle = True
 
         if(isRectangle == True):
@@ -192,7 +233,16 @@ if __name__ == "__main__":
     camera.create_trackbars()
 
     pygame.init()
-    screen = pygame.display.set_mode([640, 480])
+
+    camera.resizeFrame = False
+
+    if camera.resizeFrame:
+        pygame_screen_width, pygame_screen_height = camera.get_resized_frame_size(16,9)
+    else:
+        pygame_screen_width, pygame_screen_height = camera.width, camera.height
+
+    screen = pygame.display.set_mode([pygame_screen_width, pygame_screen_height])
+
     running = True
 
     while running:

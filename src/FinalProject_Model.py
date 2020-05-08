@@ -13,6 +13,10 @@ Jackie Zeng
 Rohil Agarwal
 
 
+This is the main file for our Ball Drop Game.
+There are two other files that this file depends on (view and controller).
+
+
 MVP:
 PLEASE NOTE: We already drafted our class structure for our original idea, and
 we hope to complete our original idea in the future. We have intentionally
@@ -28,9 +32,6 @@ quickly and with dexterity in order to not lose.
 
 
 Original Idea:
-This is the main file for our Ball Drop Game.
-There are two other files that this file depends on (view and controller).
-
 This is a game that combines CV and AR into the gameplay.
 The human player can add obstacles to the game environment by placing
 them in front of a separate game display screen, OpenCV will detect the
@@ -54,9 +55,9 @@ import numpy as np
 """ If you have ROS on your operating system, uncomment the following two
 sys.path lines
 """
-#sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # In order to import cv2 under python3
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages') # In order to import cv2 under python3
 import cv2
-#sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # Append back in order to import rospy
+sys.path.append('/opt/ros/kinetic/lib/python2.7/dist-packages') # Append back in order to import rospy
 import numpy as np
 from FinalProject_Controller import *
 from FinalProject_View import *
@@ -292,10 +293,20 @@ if __name__ == "__main__":
     # Initialize game engine
     pygame.init()
 
-    # Scale window up by a factor of 2
-    scale = 2
+    # If user wants to adjust the aspect ratio of the game to fit the a 16x9
+    # aspect ratio, uncomment the following line.
+    # camera.resizeFrame = True
+
+    # Creates pygame screen size depending on whether use wants to resize screen
+    if camera.resizeFrame:
+        pygame_screen_width, pygame_screen_height = camera.get_resized_frame_size(16,9)
+    else:
+        pygame_screen_width, pygame_screen_height = camera.width, camera.height
+
+    # Scale pygame screen window up by a factor
+    scale = 1.5
     # Set screen to scale times the size of OpenCV video
-    screen = pygame.display.set_mode([640*scale, 480*scale])
+    screen = pygame.display.set_mode([int(pygame_screen_width*scale), int(pygame_screen_height*scale)])
 
     # Creates new GameEnvironment object, which contains instances of game
     # features and methods that act on them
