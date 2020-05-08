@@ -133,7 +133,7 @@ Speaking of collision detection, the following line of code determines whether a
 hitboxList[0].colliderect(hitboxList[1])
 ```
 
-In pygame, a hitbox is a rectangle that defines a game feature’s boundaries. Using hitboxes simplifies collision detection. hitboxList contains two hitboxes: one for the circle and one for the rectangle. The method above checks to see if the two hitboxes are intersecting/colliding. 
+In pygame, a hitbox is a rectangle that defines a game feature’s boundaries. Using hitboxes simplifies collision detection. hitboxList contains two hitboxes: one for the circle and one for the rectangle. The method above checks to see if the two hitboxes are intersecting/colliding. For further documentation, click [here](https://www.pygame.org/docs/ref/rect.html).
 
 ### Computer Vision:
 After we used starter OpenCV code from the Image Processing toolbox assignment to capture webcam feed, we set about trying to determine how to best optimize our video processing to focus on what we needed for the purposes of the game and filter out the rest. We decided to use manual thresholding with trackbars to allow the user to best calibrate the thresholding to their ambient environment and lighting conditions. Calibration can take some time, but based on our testing, the results are worth the effort. We also believe that requiring the user to manually calibrate the thresholding presents a unique learning opportunity. It allows the user to go “behind the scenes” and see what the computer sees, helping them develop an intuitive, high-level understanding of fundamental computer vision concepts like thresholding and contour detection. The best part is that they need not have prior computer science knowledge in order to understand these concepts. Here is the code for thresholding:
@@ -166,9 +166,9 @@ self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 ```python
 self.thread = Thread(target=self.update, args=())
 ```
-The first line sets a buffer size of 2, which is quite small. This means that only two frames are stored and the rest are dropped. This would not be ideal for a video streaming application, because it would mean that frames would be dropped (parts of the video would be skipped), but for an application like ours that requires live video, it is acceptable if some frames are dropped if that reduces the time it takes to build up the buffer. The second line sets up multithreading, which allows multiple processes to run simultaneously. We placed our update function, which read each frame, on a separate thread from the rest of the constantly running while loop, which, among other things, created the HSV mask, displayed the mask and frame windows, and attempted to detect a rectangle. This sped up our program because it allowed methods to start running before other methods finished running. 
+The first line sets a buffer size of 2, which is quite small. This means that only two frames are stored and the rest are dropped. This would not be ideal for a video streaming application, because it would mean that frames would be dropped (parts of the video would be skipped), but for an application like ours that requires live video, it is acceptable if some frames are dropped if that reduces the time it takes to build up the buffer. The second line sets up multithreading, which allows multiple processes to run simultaneously. We placed our update function, which read each frame, on a separate thread from the rest of the constantly running while loop, which, among other things, created the HSV mask, displayed the mask and frame windows, and attempted to detect a rectangle. This sped up our program because it allowed methods to start running before other methods finished running. To see the code that helped us fix our lag, click [here](https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-sync).
 
-
+To see the program we based our mask creation, contour detection, and shape detection off of, click [here](https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/)
 
 ## Setup and Overall System
 Here is a flow diagram of our setup that gives an overview of the different steps that the program must take in order to run the game.
@@ -199,9 +199,13 @@ Pygame - Game engine
 
 We'd like to thank the [Puppet.io](https://devpost.com/software/puppet-io) team at MakeHarvard 2020 for providing us with inspiration for this project.
 
-There are some resources that helped along the way, we recommend checking them out
+There are some resources that helped along the way, we recommend checking them out:
 
 https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/
+https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-sync 
+https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame
+https://www.pygame.org/docs/ref/rect.html
+https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/ 
 
 ### Authors
 Jackie Zeng  
