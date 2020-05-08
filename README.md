@@ -5,9 +5,16 @@ We were unable to complete our original idea in the time frame allotted, so we p
 
 This game can be played in either a computer-only version or in an AR version (with a projector). Details on how to set up the game for each of the different versions is discussed later on. 
 
+### See It in Action!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oeZy3j_s490" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+Here is a video of the computer-only version of our game in action!  
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jQGUcK0w3Lw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+And here is a video of the AR/projector version of our game in action!  
+
 ***In the near future, we hope to complete our original idea. We have described this idea below so that you can see where we are heading.***
 
-### Original Idea:  
+### Original Idea Description:  
 Our project is a game that combines CV and AR into the gameplay. The human player is able to add obstacles to the game environment by placing them in front of a separate game display screen, OpenCV detects the obstacles, and these obstacles are generated through pygame as a component that other features in the game can interact with. This idea is based off of [Puppet.io](https://devpost.com/software/puppet-io), a project we were impressed by at MakeHarvard 2020.
 
 ![Game Diagram](https://i.imgur.com/4PQ7gKF.jpg)
@@ -177,14 +184,6 @@ Here is a flow diagram of our setup that gives an overview of the different step
 Here is an image of our setup for the AR version of the game.
 
 ![Projector Setup](https://i.imgur.com/E0Uyb8G.jpg)
-
-## See It in Action!
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oeZy3j_s490" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
-Here is a video of the computer-only version of our game in action!  
-
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jQGUcK0w3Lw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-And here is a video of the AR/projector version of our game in action!  
 
 
 # Additional Information
