@@ -12,6 +12,7 @@ Here is a video of the computer-only version of our game in action!
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jQGUcK0w3Lw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 And here is a video of the AR/projector version of our game in action!  
 
+
 ***In the near future, we hope to complete our original idea. We have described this idea below so that you can see where we are heading.***
 
 ### Original Idea Description:  
