@@ -199,11 +199,11 @@ We'd like to thank the [Puppet.io](https://devpost.com/software/puppet-io) team 
 
 There are some resources that helped along the way, we recommend checking them out:
 
-- <https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>  
-- <https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-- sync>  
-- <https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame>  
-- <https://www.pygame.org/docs/ref/rect.html>  
-- <https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>  
+<https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>  
+<https://stackoverflow.com/questions/58293187/opencv-real-time-streaming-video-capture-is-slow-how-to-drop-frames-or-get-- sync>  
+<https://stackoverflow.com/questions/20842801/how-to-display-text-in-pygame>  
+<https://www.pygame.org/docs/ref/rect.html>  
+<https://pysource.com/2018/12/29/real-time-shape-detection-opencv-with-python-3/>
 
 ### Authors
 Jackie Zeng  
