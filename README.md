@@ -91,7 +91,7 @@ Once everything is calibrated, simply run *FinalProject_Model.py* using your pre
 To end the game, exit the Pygame window or click on either the Frame or Mask window and press the Esc key. 
 
 ## Specifications of Systems We Tested On
-It is possible that for some unforseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
+It is possible that for some unforeseen reasons, our game will not run successfully on your system even though it ran successfully on ours. Here are some details about the systems we used for testing:
 - Machine: Dell Latitude 5401 with 30 fps webcam
 - OS: Ubuntu 16.04.6 LTS and 18.04.4 LTS (dual-booted, not a virtual machine)
 - Software: 
